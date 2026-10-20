@@ -459,10 +459,14 @@ footer { padding: 48px 0 64px; color: var(--ink-3); font-size: 13px; }
   <div class="cli-grid">
     <div class="panel">
       <h3>설치</h3>
-<pre><span class="c"># 이 폴더에서 바로</span>
+<pre><span class="c"># 1. 이 프로젝트 받기</span>
+git clone https://github.com/neohum/interesting-project.git
+cd interesting-project
+
+<span class="c"># 2. 이 폴더에서 바로</span>
 node bin/repolab.mjs help
 
-<span class="c"># 어디서나 repolab 으로 쓰기</span>
+<span class="c"># 3. 어디서나 repolab 으로 쓰기</span>
 npm link
 repolab doctor   <span class="c"># git/node/cargo/python 점검</span></pre>
     </div>

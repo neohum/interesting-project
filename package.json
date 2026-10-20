@@ -1,0 +1,14 @@
+{
+  "name": "repolab",
+  "version": "0.1.0",
+  "description": "트렌딩 GitHub 레포 목록 검색 · 클론 · 실행 도우미와 소개 페이지",
+  "type": "module",
+  "bin": { "repolab": "bin/repolab.mjs" },
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "repolab": "node bin/repolab.mjs",
+    "html": "node bin/repolab.mjs html",
+    "test": "node --test tests/"
+  },
+  "license": "MIT"
+}

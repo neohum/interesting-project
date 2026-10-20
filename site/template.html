@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로컬 레포 실험실</title>
+<meta name="description" content="GitHub 트렌딩 레포 <!--TOTAL-->개 정리와 GPU 없이 직접 해볼 만한 <!--NPICKS-->개 애니메이션·아트 프로젝트의 결과물·미니 프로젝트 소개">
+<style>
+:root {
+  --bg: #f7f6f3; --surface: #ffffff; --surface-2: #f0eee9; --ink: #1c1b19; --ink-2: #57534e; --ink-3: #8a857d;
+  --line: #e4e1da; --accent: #c2410c; --accent-soft: #fde7da; --code-bg: #1c1b19; --code-ink: #f5f3ee;
+  --ready: #15803d; --heavy: #a16207; --gpu: #b91c1c; --apple: #7e22ce; --key: #1d4ed8; --skill: #0e7490; --unknown: #78716c;
+  --radius: 14px; --shadow: 0 1px 2px rgb(0 0 0 / .04), 0 8px 24px rgb(0 0 0 / .05);
+  --sans: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', system-ui, sans-serif;
+  --mono: ui-monospace, 'D2Coding', Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141312; --surface: #1d1c1a; --surface-2: #262522; --ink: #f2f0eb; --ink-2: #bdb7ad; --ink-3: #8d877d;
+    --line: #34322e; --accent: #fb923c; --accent-soft: #3a2416; --code-bg: #0c0b0a; --code-ink: #f2f0eb;
+    --ready: #4ade80; --heavy: #facc15; --gpu: #f87171; --apple: #c084fc; --key: #60a5fa; --skill: #22d3ee; --unknown: #a8a29e;
+    --shadow: none; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141312; --surface: #1d1c1a; --surface-2: #262522; --ink: #f2f0eb; --ink-2: #bdb7ad; --ink-3: #8d877d;
+  --line: #34322e; --accent: #fb923c; --accent-soft: #3a2416; --code-bg: #0c0b0a; --code-ink: #f2f0eb;
+  --ready: #4ade80; --heavy: #facc15; --gpu: #f87171; --apple: #c084fc; --key: #60a5fa; --skill: #22d3ee; --unknown: #a8a29e;
+  --shadow: none; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.65 var(--sans); word-break: keep-all; overflow-wrap: anywhere; }
+a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--line); }
+a:hover { text-decoration-color: var(--accent); }
+code { font-family: var(--mono); font-size: .9em; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 720px) { .wrap { padding: 0 32px; } }
+
+header.hero { padding: 56px 0 28px; }
+.eyebrow { font-size: 13px; letter-spacing: .08em; color: var(--accent); font-weight: 700; margin: 0 0 10px; }
+h1 { font-size: clamp(30px, 5vw, 50px); line-height: 1.15; margin: 0 0 16px; letter-spacing: -.02em; }
+.lead { font-size: 18px; color: var(--ink-2); max-width: 720px; margin: 0; }
+.stats { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 28px 0 0; padding: 0; list-style: none; }
+.stats b { display: block; font-size: 28px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stats span { font-size: 13px; color: var(--ink-3); }
+nav.toc { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+nav.toc .wrap { display: flex; gap: 20px; align-items: center; height: 48px; overflow-x: auto; white-space: nowrap; font-size: 14px; }
+nav.toc a { text-decoration: none; color: var(--ink-2); }
+nav.toc a:hover { color: var(--ink); }
+nav.toc .theme { margin-left: auto; background: none; border: 1px solid var(--line); color: var(--ink-2); border-radius: 999px; padding: 4px 12px; font: inherit; font-size: 13px; cursor: pointer; }
+
+section { padding: 48px 0 8px; }
+h2 { font-size: 26px; letter-spacing: -.01em; margin: 0 0 6px; }
+.section-sub { color: var(--ink-2); margin: 0 0 24px; max-width: 760px; }
+
+.picks { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 820px) { .picks { grid-template-columns: 1fr 1fr; } }
+.picks > *, .cli-grid > *, .mentions > * { min-width: 0; }
+.pick { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+.pick-art { margin: 0; border-bottom: 1px solid var(--line); line-height: 0; }
+.pick-art svg { width: 100%; height: auto; display: block; }
+.pick-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+.pick-meta { margin: 0 0 6px; font-size: 13px; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; color: var(--ink-2); }
+.pick-meta .num { font-family: var(--mono); color: var(--accent); font-weight: 700; }
+.pick h3 { margin: 0; font-size: 22px; }
+.tagline { margin: 2px 0 10px; font-weight: 600; color: var(--ink-2); }
+.why { margin: 0 0 14px; color: var(--ink-2); font-size: 15px; }
+.pick h4 { font-size: 13px; letter-spacing: .04em; color: var(--ink-3); margin: 10px 0 6px; font-weight: 700; }
+.outputs { margin: 0; padding-left: 18px; font-size: 15px; }
+.minis { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.minis li { background: var(--surface-2); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; }
+.minis b { display: block; font-size: 15px; }
+.minis span { color: var(--ink-2); }
+.req { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--ink-3); margin: 14px 0 12px; }
+.cmd { margin-top: auto; display: flex; align-items: center; gap: 8px; background: var(--code-bg); color: var(--code-ink); border-radius: 10px; padding: 8px 8px 8px 14px; }
+.cmd code { flex: 1; overflow-x: auto; white-space: nowrap; }
+.copy { border: 1px solid #ffffff30; background: transparent; color: inherit; border-radius: 7px; padding: 4px 10px; font: inherit; font-size: 12px; cursor: pointer; }
+.copy:hover { background: #ffffff18; }
+.muted { color: var(--ink-3); }
+.lv { font-size: 12px; font-weight: 700; border-radius: 999px; padding: 1px 9px; border: 1px solid currentColor; white-space: nowrap; }
+.lv-ready { color: var(--ready); } .lv-heavy { color: var(--heavy); } .lv-gpu { color: var(--gpu); } .lv-apple { color: var(--apple); }
+.lv-key { color: var(--key); } .lv-skill { color: var(--skill); } .lv-unknown { color: var(--unknown); }
+.art-note { font-size: 13px; color: var(--ink-3); margin: 14px 0 0; }
+
+.mentions { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .mentions { grid-template-columns: 1fr 1fr; } }
+.mentions li { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 14.5px; }
+.mentions a { font-weight: 700; display: block; }
+.mentions span { color: var(--ink-2); }
+
+.filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 0 0 14px; }
+.filters input[type=search] { flex: 1 1 260px; min-width: 0; font: inherit; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.filters select { font: inherit; font-size: 14px; padding: 9px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); max-width: 100%; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+.chip { font: inherit; font-size: 13px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.count { font-size: 14px; color: var(--ink-3); margin: 0 0 8px; }
+.table-wrap { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12.5px; color: var(--ink-3); font-weight: 700; background: var(--surface-2); white-space: nowrap; }
+th button { all: unset; cursor: pointer; }
+th button:focus-visible { outline: 2px solid var(--accent); }
+tbody tr:last-child td { border-bottom: 0; }
+td.repo a { font-weight: 700; text-decoration: none; }
+td.repo .pk { color: var(--accent); margin-right: 4px; }
+td.lang { white-space: nowrap; overflow-wrap: normal; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+td .en { display: block; color: var(--ink-3); font-size: 13px; margin-top: 2px; }
+td .cmdline { display: inline-block; margin-top: 4px; font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+@media (max-width: 760px) {
+  thead { display: none; }
+  table, tbody, tr, td { display: block; width: 100%; }
+  tr { border-bottom: 1px solid var(--line); padding: 10px 2px; }
+  tbody tr:last-child { border-bottom: 0; }
+  td { border: 0; padding: 2px 14px; }
+  td.num { text-align: left; display: inline-block; width: auto; color: var(--ink-3); padding-right: 0; }
+  td.lang { display: inline-block; width: auto; color: var(--ink-3); padding-right: 0; }
+}
+
+.cli-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .cli-grid { grid-template-columns: 1fr 1fr; } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+.panel h3 { margin: 0 0 10px; font-size: 17px; }
+pre { margin: 0; background: var(--code-bg); color: var(--code-ink); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font: 13px/1.7 var(--mono); }
+pre .c { color: #a8a29e; }
+.legend { display: grid; gap: 6px; font-size: 14px; margin: 0; padding: 0; list-style: none; }
+.legend li { display: flex; gap: 10px; align-items: baseline; }
+footer { padding: 48px 0 64px; color: var(--ink-3); font-size: 13px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<nav class="toc" aria-label="목차"><div class="wrap">
+  <a href="#picks">추천 <!--NPICKS-->선</a><a href="#mentions">더 볼 것</a><a href="#all">전체 목록</a><a href="#cli">CLI 사용법</a>
+  <button class="theme" type="button" id="theme">테마</button>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <p class="eyebrow">REPO LAB · <!--COLLECTED--> 기준</p>
+  <h1>GPU 없이, 오늘 저녁<br>내 노트북에서 돌려 볼 레포</h1>
+  <p class="lead">붙여 넣은 트렌딩 목록 <!--TOTAL-->개를 실행 조건별로 나누고, 그중 애니메이션·그림·영상을 직접 만들어 볼 수 있는 <!--NPICKS-->개를 골랐다. 각 프로젝트가 만들어 내는 결과물을 그림으로 보여 주고, 주말에 해볼 만한 미니 프로젝트를 붙였다.</p>
+  <ul class="stats">
+    <li><b><!--TOTAL--></b><span>정리한 레포</span></li>
+    <li><b><!--READY--></b><span>CPU만으로 로컬 실행</span></li>
+    <li><b><!--SKILL--></b><span>AI 에이전트용 스킬</span></li>
+    <li><b><!--NPICKS--></b><span>직접 해볼 추천작</span></li>
+  </ul>
+</div></header>
+
+<main>
+<section id="picks"><div class="wrap">
+  <h2>직접 해볼 만한 <!--NPICKS-->선</h2>
+  <p class="section-sub">모두 내 컴퓨터에 GPU가 없어도 된다. ArtCraft는 생성을 클라우드 모델에 맡기고, Anatomy와 huashu-art-motion은 코딩 에이전트에 설치해 쓰는 스킬이다. 카드의 그림은 각 프로젝트를 돌리면 얻는 결과물을 그린 예시이고, 맨 아래 명령 한 줄이면 클론부터 실행까지 이어진다.</p>
+  <div class="picks">
+<!--PICKS-->
+  </div>
+  <p class="art-note">그림은 실제 스크린샷이 아니라 결과물 형태를 보여 주는 일러스트다. 그림 속 수치(속도·메모리 등)도 예시다.</p>
+</div></section>
+
+<section id="mentions"><div class="wrap">
+  <h2>그 밖에 볼 만한 것</h2>
+  <p class="section-sub">준비가 조금 더 들거나 쓰임새가 좁지만 손대 볼 가치가 있는 레포.</p>
+  <ul class="mentions"><!--MENTIONS--></ul>
+</div></section>
+
+<section id="all"><div class="wrap">
+  <h2>전체 목록</h2>
+  <p class="section-sub">로컬 실행 등급은 설명과 매니페스트를 보고 매긴 판단이다. 별·포크 수는 붙여 넣은 목록의 스냅샷이다.</p>
+  <div class="filters">
+    <label class="sr" for="q">검색</label>
+    <input id="q" type="search" placeholder="이름·설명 검색 (예: hwp, rust, 애니메이션)" autocomplete="off">
+    <label class="sr" for="cat">카테고리</label>
+    <select id="cat"><option value="">모든 카테고리</option></select>
+    <label class="sr" for="sort">정렬</label>
+    <select id="sort"><option value="stars">별 많은 순</option><option value="forks">포크 많은 순</option><option value="name">이름순</option></select>
+  </div>
+  <div class="chips" id="levels" role="group" aria-label="로컬 실행 등급"></div>
+  <p class="count" id="count" aria-live="polite"></p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>레포</th><th>설명</th><th>언어</th><th style="text-align:right">★</th><th>로컬</th><th>카테고리</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+</div></section>
+
+<section id="cli"><div class="wrap">
+  <h2>CLI로 검색하고 바로 돌리기</h2>
+  <p class="section-sub"><code>repolab</code>은 이 목록을 터미널에서 검색하고, 얕은 클론과 설치·실행까지 이어 주는 도구다. 의존성 없이 Node.js 18 이상과 git만 있으면 macOS·Windows·Linux에서 똑같이 돈다.</p>
+  <div class="cli-grid">
+    <div class="panel">
+      <h3>설치</h3>
+<pre><span class="c"># 이 폴더에서 바로</span>
+node bin/repolab.mjs help
+
+<span class="c"># 어디서나 repolab 으로 쓰기</span>
+npm link
+repolab doctor   <span class="c"># git/node/cargo/python 점검</span></pre>
+    </div>
+    <div class="panel">
+      <h3>찾아보기</h3>
+<pre>repolab picks                     <span class="c"># 추천 <!--NPICKS-->선</span>
+repolab search hwp markdown       <span class="c"># AND 검색</span>
+repolab list --local ready --lang Rust
+repolab show anatomy              <span class="c"># 일부 이름도 OK</span>
+repolab cats                      <span class="c"># 분류별 개수</span></pre>
+    </div>
+    <div class="panel">
+      <h3>클론하고 실행</h3>
+<pre>repolab clone anime               <span class="c"># ~/repolab 에 --depth 1</span>
+repolab run mesh2motion-app       <span class="c"># 클론→설치→실행 (확인 후)</span>
+repolab run artcraft --dry-run    <span class="c"># 계획만 보기</span>
+repolab serve anatomy --open
+repolab check --all               <span class="c"># 레포 존재 확인</span></pre>
+    </div>
+    <div class="panel">
+      <h3>로컬 실행 등급</h3>
+      <ul class="legend" id="legend"></ul>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <code>repolab html</code>로 다시 만든 페이지 · 데이터: data/repos.json, data/picks.json · 레포 정보는 <!--COLLECTED--> 스냅샷이므로 실행 전 각 README를 확인할 것.
+</div></footer>
+
+<script>
+const DATA = /*DATA*/null;
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const fmt = (n) => n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k' : String(n);
+const picks = new Set(DATA.picks);
+const state = { q: '', cat: '', sort: 'stars', levels: new Set() };
+const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+
+const cats = [...new Set(DATA.repos.map((r) => r.cat))].sort((a, b) => a.localeCompare(b, 'ko'));
+$('#cat').insertAdjacentHTML('beforeend', cats.map((c) => `<option>${esc(c)}</option>`).join(''));
+const levelCounts = DATA.repos.reduce((m, r) => (m[r.local] = (m[r.local] || 0) + 1, m), {});
+$('#levels').innerHTML = Object.keys(DATA.meta.levels).map((k) => `<button type="button" class="chip" aria-pressed="false" data-level="${k}">${esc(DATA.labels[k])} ${levelCounts[k] || 0}</button>`).join('');
+$('#legend').innerHTML = Object.entries(DATA.meta.levels).map(([k, v]) => `<li><span class="lv lv-${k}">${esc(DATA.labels[k])}</span><span>${esc(v)}</span></li>`).join('');
+
+function shortName(id) {
+  const name = id.split('/')[1];
+  return DATA.repos.filter((r) => r.id.split('/')[1].toLowerCase() === name.toLowerCase()).length === 1 ? name : id;
+}
+function render() {
+  const terms = state.q.toLowerCase().split(/\s+/).filter(Boolean);
+  let list = DATA.repos.filter((r) => {
+    if (state.cat && r.cat !== state.cat) return false;
+    if (state.levels.size && !state.levels.has(r.local)) return false;
+    const hay = `${r.id} ${r.ko} ${r.desc} ${r.cat} ${r.lang}`.toLowerCase();
+    return terms.every((t) => hay.includes(t));
+  });
+  const key = { stars: (r) => -r.stars, forks: (r) => -r.forks, name: (r) => r.id.toLowerCase() }[state.sort];
+  list.sort((a, b) => (key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : 0));
+  $('#count').textContent = `${DATA.repos.length}개 중 ${list.length}개`;
+  $('#rows').innerHTML = list.map((r) => `<tr>
+    <td class="repo">${picks.has(r.id) ? '<span class="pk" title="추천작">◆</span>' : ''}<a href="https://github.com/${esc(r.id)}" target="_blank" rel="noopener">${esc(r.id)}</a><br><span class="cmdline">repolab show ${esc(shortName(r.id))}</span></td>
+    <td>${esc(r.ko)}${r.desc && r.desc !== r.ko ? `<span class="en">${esc(r.desc)}</span>` : ''}</td>
+    <td class="lang">${esc(r.lang || '-')}</td>
+    <td class="num">★ ${fmt(r.stars)}</td>
+    <td><span class="lv lv-${r.local}">${esc(DATA.labels[r.local])}</span></td>
+    <td class="muted">${esc(r.cat)}</td>
+  </tr>`).join('') || '<tr><td colspan="6" class="muted">조건에 맞는 레포가 없다.</td></tr>';
+}
+$('#q').addEventListener('input', (e) => { state.q = e.target.value; render(); });
+$('#cat').addEventListener('change', (e) => { state.cat = e.target.value; render(); });
+$('#sort').addEventListener('change', (e) => { state.sort = e.target.value; render(); });
+$('#levels').addEventListener('click', (e) => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  const k = b.dataset.level;
+  state.levels.has(k) ? state.levels.delete(k) : state.levels.add(k);
+  b.setAttribute('aria-pressed', state.levels.has(k));
+  render();
+});
+render();
+
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('.copy'); if (!b) return;
+  try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = '복사됨'; }
+  catch { b.textContent = '직접 복사'; }
+  setTimeout(() => (b.textContent = '복사'), 1500);
+});
+
+const root = document.documentElement;
+const saved = store.get('repolab-theme');
+if (saved) root.dataset.theme = saved;
+$('#theme').addEventListener('click', () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  store.set('repolab-theme', root.dataset.theme);
+});
+</script>
+</body>
+</html>

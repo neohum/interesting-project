@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+  <rect width="640" height="400" fill="#141414"/>
+  <g transform="translate(24 24)">
+    <rect width="188" height="230" rx="6" fill="#3c4fa8"/>
+    <g fill="none" stroke-linecap="round" stroke-width="3">
+      <path d="M14 30c20-10 30 10 50 0s30-12 50 0 30 8 60-4" stroke="#7d93e8"/><path d="M14 54c24-8 36 12 60 2s34-10 50 0 24 6 50-2" stroke="#5b70cf"/>
+      <path d="M118 44a18 18 0 1 1 30 14" stroke="#f2d25c"/><path d="M60 90c10-14 30-14 40 0" stroke="#f2d25c"/>
+      <path d="M14 120c30-6 60 6 90 0s50-8 70 0" stroke="#7d93e8"/>
+    </g>
+    <circle cx="134" cy="46" r="10" fill="#f2d25c"/>
+    <path d="M0 160h188v70H0z" fill="#b5652f"/><g stroke="#8a4721" stroke-width="2"><path d="M0 176h188M0 196h188M0 214h188"/></g>
+    <path d="M40 106l8 -64 8 64z" fill="#1f3d2a"/>
+    <text x="10" y="222" font-size="11" fill="#fff" font-weight="700">1888 후기인상파</text>
+  </g>
+  <g transform="translate(226 24)">
+    <rect width="188" height="230" rx="6" fill="#ede6d6"/>
+    <g fill="none" stroke="#2a2a2a" stroke-linecap="round"><path d="M20 160c20-40 40-70 60-90 10 30 30 50 40 90" stroke-width="5" opacity=".85"/><path d="M90 170c16-30 34-50 50-60 8 24 20 40 28 60" stroke-width="3" opacity=".5"/><path d="M10 190c50-6 110-6 170 0" stroke-width="2" opacity=".6"/></g>
+    <circle cx="148" cy="48" r="16" fill="#c6402e"/>
+    <text x="10" y="222" font-size="11" fill="#2a2a2a" font-weight="700">수묵 산수</text>
+  </g>
+  <g transform="translate(428 24)">
+    <rect width="188" height="230" rx="6" fill="#5c94fc"/>
+    <g fill="#c84c0c"><rect x="40" y="70" width="24" height="24"/><rect x="88" y="70" width="24" height="24"/></g>
+    <rect x="64" y="70" width="24" height="24" fill="#fac000"/><text x="70" y="88" font-size="16" font-weight="800" fill="#c84c0c">?</text>
+    <g fill="#00a800"><rect x="130" y="140" width="40" height="60"/><rect x="124" y="132" width="52" height="14"/></g>
+    <path d="M0 200h188v30H0z" fill="#c84c0c"/>
+    <g fill="#e52521"><rect x="44" y="160" width="20" height="12"/></g><rect x="44" y="172" width="20" height="16" fill="#3c40b8"/><rect x="48" y="150" width="14" height="10" fill="#f4b88c"/>
+    <circle cx="76" cy="56" r="6" fill="#fac000"/>
+    <text x="10" y="222" font-size="11" fill="#fff" font-weight="700">8-bit 픽셀</text>
+  </g>
+  <g font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#b9b9b9">
+    <rect x="24" y="270" width="592" height="106" rx="8" fill="#1f1f1f" stroke="#2e2e2e"/>
+    <text x="40" y="294"><tspan fill="#9ad18b">$</tspan> uv run --with playwright python scripts/engine/render.py \</text>
+    <text x="56" y="314">--spec scripts/engine/examples/t3_finance_chart.json --out chart.mp4</text>
+    <text x="40" y="336">0/210 · 60/210 · 120/210 · 180/210</text>
+    <text x="40" y="358" fill="#9ad18b">done -&gt; chart.mp4   · 화풍 35종 · 해설 문법 9종</text>
+  </g>
+</svg>

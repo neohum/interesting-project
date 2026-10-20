@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로컬 레포 실험실</title>
+<meta name="description" content="GitHub 트렌딩 레포 90개 정리와 GPU 없이 직접 해볼 만한 6개 애니메이션·아트 프로젝트의 결과물·미니 프로젝트 소개">
+<style>
+:root {
+  --bg: #f7f6f3; --surface: #ffffff; --surface-2: #f0eee9; --ink: #1c1b19; --ink-2: #57534e; --ink-3: #8a857d;
+  --line: #e4e1da; --accent: #c2410c; --accent-soft: #fde7da; --code-bg: #1c1b19; --code-ink: #f5f3ee;
+  --ready: #15803d; --heavy: #a16207; --gpu: #b91c1c; --apple: #7e22ce; --key: #1d4ed8; --skill: #0e7490; --unknown: #78716c;
+  --radius: 14px; --shadow: 0 1px 2px rgb(0 0 0 / .04), 0 8px 24px rgb(0 0 0 / .05);
+  --sans: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', system-ui, sans-serif;
+  --mono: ui-monospace, 'D2Coding', Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141312; --surface: #1d1c1a; --surface-2: #262522; --ink: #f2f0eb; --ink-2: #bdb7ad; --ink-3: #8d877d;
+    --line: #34322e; --accent: #fb923c; --accent-soft: #3a2416; --code-bg: #0c0b0a; --code-ink: #f2f0eb;
+    --ready: #4ade80; --heavy: #facc15; --gpu: #f87171; --apple: #c084fc; --key: #60a5fa; --skill: #22d3ee; --unknown: #a8a29e;
+    --shadow: none; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141312; --surface: #1d1c1a; --surface-2: #262522; --ink: #f2f0eb; --ink-2: #bdb7ad; --ink-3: #8d877d;
+  --line: #34322e; --accent: #fb923c; --accent-soft: #3a2416; --code-bg: #0c0b0a; --code-ink: #f2f0eb;
+  --ready: #4ade80; --heavy: #facc15; --gpu: #f87171; --apple: #c084fc; --key: #60a5fa; --skill: #22d3ee; --unknown: #a8a29e;
+  --shadow: none; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.65 var(--sans); word-break: keep-all; overflow-wrap: anywhere; }
+a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--line); }
+a:hover { text-decoration-color: var(--accent); }
+code { font-family: var(--mono); font-size: .9em; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 720px) { .wrap { padding: 0 32px; } }
+
+header.hero { padding: 56px 0 28px; }
+.eyebrow { font-size: 13px; letter-spacing: .08em; color: var(--accent); font-weight: 700; margin: 0 0 10px; }
+h1 { font-size: clamp(30px, 5vw, 50px); line-height: 1.15; margin: 0 0 16px; letter-spacing: -.02em; }
+.lead { font-size: 18px; color: var(--ink-2); max-width: 720px; margin: 0; }
+.stats { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 28px 0 0; padding: 0; list-style: none; }
+.stats b { display: block; font-size: 28px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stats span { font-size: 13px; color: var(--ink-3); }
+nav.toc { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+nav.toc .wrap { display: flex; gap: 20px; align-items: center; height: 48px; overflow-x: auto; white-space: nowrap; font-size: 14px; }
+nav.toc a { text-decoration: none; color: var(--ink-2); }
+nav.toc a:hover { color: var(--ink); }
+nav.toc .theme { margin-left: auto; background: none; border: 1px solid var(--line); color: var(--ink-2); border-radius: 999px; padding: 4px 12px; font: inherit; font-size: 13px; cursor: pointer; }
+
+section { padding: 48px 0 8px; }
+h2 { font-size: 26px; letter-spacing: -.01em; margin: 0 0 6px; }
+.section-sub { color: var(--ink-2); margin: 0 0 24px; max-width: 760px; }
+
+.picks { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 820px) { .picks { grid-template-columns: 1fr 1fr; } }
+.picks > *, .cli-grid > *, .mentions > * { min-width: 0; }
+.pick { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+.pick-art { margin: 0; border-bottom: 1px solid var(--line); line-height: 0; }
+.pick-art svg { width: 100%; height: auto; display: block; }
+.pick-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+.pick-meta { margin: 0 0 6px; font-size: 13px; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; color: var(--ink-2); }
+.pick-meta .num { font-family: var(--mono); color: var(--accent); font-weight: 700; }
+.pick h3 { margin: 0; font-size: 22px; }
+.tagline { margin: 2px 0 10px; font-weight: 600; color: var(--ink-2); }
+.why { margin: 0 0 14px; color: var(--ink-2); font-size: 15px; }
+.pick h4 { font-size: 13px; letter-spacing: .04em; color: var(--ink-3); margin: 10px 0 6px; font-weight: 700; }
+.outputs { margin: 0; padding-left: 18px; font-size: 15px; }
+.minis { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.minis li { background: var(--surface-2); border-radius: 10px; padding: 10px 12px; font-size: 14.5px; }
+.minis b { display: block; font-size: 15px; }
+.minis span { color: var(--ink-2); }
+.req { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--ink-3); margin: 14px 0 12px; }
+.cmd { margin-top: auto; display: flex; align-items: center; gap: 8px; background: var(--code-bg); color: var(--code-ink); border-radius: 10px; padding: 8px 8px 8px 14px; }
+.cmd code { flex: 1; overflow-x: auto; white-space: nowrap; }
+.copy { border: 1px solid #ffffff30; background: transparent; color: inherit; border-radius: 7px; padding: 4px 10px; font: inherit; font-size: 12px; cursor: pointer; }
+.copy:hover { background: #ffffff18; }
+.muted { color: var(--ink-3); }
+.lv { font-size: 12px; font-weight: 700; border-radius: 999px; padding: 1px 9px; border: 1px solid currentColor; white-space: nowrap; }
+.lv-ready { color: var(--ready); } .lv-heavy { color: var(--heavy); } .lv-gpu { color: var(--gpu); } .lv-apple { color: var(--apple); }
+.lv-key { color: var(--key); } .lv-skill { color: var(--skill); } .lv-unknown { color: var(--unknown); }
+.art-note { font-size: 13px; color: var(--ink-3); margin: 14px 0 0; }
+
+.mentions { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .mentions { grid-template-columns: 1fr 1fr; } }
+.mentions li { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 14.5px; }
+.mentions a { font-weight: 700; display: block; }
+.mentions span { color: var(--ink-2); }
+
+.filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 0 0 14px; }
+.filters input[type=search] { flex: 1 1 260px; min-width: 0; font: inherit; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.filters select { font: inherit; font-size: 14px; padding: 9px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); max-width: 100%; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+.chip { font: inherit; font-size: 13px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.count { font-size: 14px; color: var(--ink-3); margin: 0 0 8px; }
+.table-wrap { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12.5px; color: var(--ink-3); font-weight: 700; background: var(--surface-2); white-space: nowrap; }
+th button { all: unset; cursor: pointer; }
+th button:focus-visible { outline: 2px solid var(--accent); }
+tbody tr:last-child td { border-bottom: 0; }
+td.repo a { font-weight: 700; text-decoration: none; }
+td.repo .pk { color: var(--accent); margin-right: 4px; }
+td.lang { white-space: nowrap; overflow-wrap: normal; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+td .en { display: block; color: var(--ink-3); font-size: 13px; margin-top: 2px; }
+td .cmdline { display: inline-block; margin-top: 4px; font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+@media (max-width: 760px) {
+  thead { display: none; }
+  table, tbody, tr, td { display: block; width: 100%; }
+  tr { border-bottom: 1px solid var(--line); padding: 10px 2px; }
+  tbody tr:last-child { border-bottom: 0; }
+  td { border: 0; padding: 2px 14px; }
+  td.num { text-align: left; display: inline-block; width: auto; color: var(--ink-3); padding-right: 0; }
+  td.lang { display: inline-block; width: auto; color: var(--ink-3); padding-right: 0; }
+}
+
+.cli-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .cli-grid { grid-template-columns: 1fr 1fr; } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+.panel h3 { margin: 0 0 10px; font-size: 17px; }
+pre { margin: 0; background: var(--code-bg); color: var(--code-ink); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font: 13px/1.7 var(--mono); }
+pre .c { color: #a8a29e; }
+.legend { display: grid; gap: 6px; font-size: 14px; margin: 0; padding: 0; list-style: none; }
+.legend li { display: flex; gap: 10px; align-items: baseline; }
+footer { padding: 48px 0 64px; color: var(--ink-3); font-size: 13px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<nav class="toc" aria-label="목차"><div class="wrap">
+  <a href="#picks">추천 6선</a><a href="#mentions">더 볼 것</a><a href="#all">전체 목록</a><a href="#cli">CLI 사용법</a>
+  <button class="theme" type="button" id="theme">테마</button>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <p class="eyebrow">REPO LAB · 2026-10-20 기준</p>
+  <h1>GPU 없이, 오늘 저녁<br>내 노트북에서 돌려 볼 레포</h1>
+  <p class="lead">붙여 넣은 트렌딩 목록 90개를 실행 조건별로 나누고, 그중 애니메이션·그림·영상을 직접 만들어 볼 수 있는 6개를 골랐다. 각 프로젝트가 만들어 내는 결과물을 그림으로 보여 주고, 주말에 해볼 만한 미니 프로젝트를 붙였다.</p>
+  <ul class="stats">
+    <li><b>90</b><span>정리한 레포</span></li>
+    <li><b>32</b><span>CPU만으로 로컬 실행</span></li>
+    <li><b>28</b><span>AI 에이전트용 스킬</span></li>
+    <li><b>6</b><span>직접 해볼 추천작</span></li>
+  </ul>
+</div></header>
+
+<main>
+<section id="picks"><div class="wrap">
+  <h2>직접 해볼 만한 6선</h2>
+  <p class="section-sub">모두 내 컴퓨터에 GPU가 없어도 된다. ArtCraft는 생성을 클라우드 모델에 맡기고, Anatomy와 huashu-art-motion은 코딩 에이전트에 설치해 쓰는 스킬이다. 카드의 그림은 각 프로젝트를 돌리면 얻는 결과물을 그린 예시이고, 맨 아래 명령 한 줄이면 클론부터 실행까지 이어진다.</p>
+  <div class="picks">
+<article class="pick" id="pick-1" data-id="juliangarnier/anime">
+  <figure class="pick-art"><svg role="img" aria-label="anime.js 결과물 예시" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+  <defs><linearGradient id="ag" x1="0" x2="1"><stop offset="0" stop-color="#ff4b4b"/><stop offset="1" stop-color="#ff9f43"/></linearGradient></defs>
+  <rect width="640" height="400" fill="#16151a"/>
+  <g font-size="76" font-weight="800" fill="url(#ag)">
+    <text x="70" y="178">안</text>
+    <text x="170" y="150" opacity=".95">녕</text>
+    <text x="270" y="126" opacity=".9">하</text>
+    <text x="370" y="152" opacity=".85">세</text>
+    <text x="470" y="186" opacity=".8">요</text>
+  </g>
+  <g fill="#ff6b4b" opacity=".18" font-size="76" font-weight="800"><text x="170" y="186">녕</text><text x="270" y="176">하</text><text x="270" y="156" opacity=".6">하</text><text x="370" y="190">세</text></g>
+  <g stroke="#ff9f43" stroke-width="2" stroke-linecap="round" opacity=".55"><path d="M198 196v18M298 172v34M398 198v16"/></g>
+  <path d="M60 236c80-40 140 30 220 0s150-40 300 6" fill="none" stroke="#5ee7df" stroke-width="3" stroke-dasharray="460" stroke-dashoffset="120" stroke-linecap="round"/>
+  <circle cx="470" cy="226" r="7" fill="#5ee7df"/>
+  <g font-size="12" fill="#8e8a99">
+    <rect x="40" y="276" width="560" height="104" rx="12" fill="#211f27"/>
+    <text x="58" y="302">timeline</text><text x="560" y="302" text-anchor="end">0 ─ 2400ms</text>
+    <line x1="58" y1="312" x2="582" y2="312" stroke="#34313d"/>
+    <text x="58" y="334">letters</text>
+    <rect x="130" y="324" width="70" height="14" rx="7" fill="#ff4b4b"/><rect x="160" y="324" width="70" height="14" rx="7" fill="#ff6247" opacity=".9"/><rect x="190" y="324" width="70" height="14" rx="7" fill="#ff7a45" opacity=".85"/><rect x="220" y="324" width="70" height="14" rx="7" fill="#ff8c44" opacity=".8"/><rect x="250" y="324" width="70" height="14" rx="7" fill="#ff9f43" opacity=".75"/>
+    <text x="58" y="362">path</text><rect x="300" y="352" width="240" height="14" rx="7" fill="#5ee7df"/>
+    <line x1="402" y1="316" x2="402" y2="372" stroke="#fff" stroke-width="1.5"/><path d="M396 314h12l-6 8z" fill="#fff"/>
+  </g>
+  <text x="40" y="44" font-size="13" fill="#8e8a99" font-family="ui-monospace,Menlo,Consolas,monospace">stagger(80, { from: 'first' })</text>
+</svg>
+</figure>
+  <div class="pick-body">
+    <p class="pick-meta"><span class="num">01</span> <a href="https://github.com/juliangarnier/anime" target="_blank" rel="noopener">juliangarnier/anime</a> <span class="lv lv-ready">로컬OK</span> <span class="muted">JavaScript · ★ 74k</span></p>
+    <h3>anime.js</h3>
+    <p class="tagline">타임라인으로 짜는 웹 애니메이션 엔진</p>
+    <p class="why">CSS·SVG·DOM 속성·JS 객체를 같은 API로 움직인다. 예제 폴더가 풍부해서 클론 후 바로 수십 개 데모를 브라우저로 볼 수 있다.</p>
+    <h4>얻는 결과물</h4>
+    <ul class="outputs"><li>examples/ 폴더의 인터랙티브 데모 모음</li><li>직접 만든 키네틱 타이포그래피·SVG 라인 드로잉</li><li>스크롤 연동 애니메이션 페이지</li></ul>
+    <h4>해볼 만한 미니 프로젝트</h4>
+    <ul class="minis"><li><b>한글 키네틱 인트로</b><span>자모를 span으로 쪼개 stagger로 튀어 오르게 하는 5초짜리 오프닝. 화면 녹화하면 영상 인트로가 된다.</span></li><li><b>깃 커밋 타임라인 애니메이션</b><span>git log를 JSON으로 뽑아 커밋이 하나씩 쌓이는 SVG 그래프로 재생한다.</span></li></ul>
+    <p class="req"><span>필요: git, node</span><span>설치 규모: 소</span></p>
+    <div class="cmd"><code>repolab run anime</code><button type="button" class="copy" data-copy="repolab run anime">복사</button></div>
+  </div>
+</article>
+<article class="pick" id="pick-2" data-id="Mesh2Motion/mesh2motion-app">
+  <figure class="pick-art"><svg role="img" aria-label="Mesh2Motion 결과물 예시" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+  <rect width="640" height="400" fill="#1b1e24"/>
+  <g stroke="#2a2f38"><path d="M0 300h640M0 330h640M0 360h640"/><path d="M120 280L40 400M240 280L200 400M360 280v120M480 280l40 120M600 280l80 120"/></g>
+  <g fill="#7c8597" opacity=".22">
+    <circle cx="150" cy="96" r="18"/><path d="M138 116h24l6 70h-36z"/><path d="M140 186l-22 92h14l22-80M160 186l26 88h-14l-24-78"/>
+    <circle cx="230" cy="94" r="18" opacity=".7"/><path d="M218 114h24l6 70h-36z" opacity=".7"/>
+  </g>
+  <g transform="translate(330 0)">
+    <path d="M-24 116c0-10 48-10 48 0l8 72h-64z" fill="#4d6bfe" opacity=".35"/>
+    <circle cx="0" cy="92" r="20" fill="#4d6bfe" opacity=".35"/>
+    <g stroke="#ffd166" stroke-width="3.2" stroke-linecap="round" fill="none">
+      <path d="M0 112v76"/><path d="M0 124l-34 30-14 38M0 124l30 26 30-8"/><path d="M-12 188l-24 46-6 44M12 188l30 40 4 48"/>
+    </g>
+    <g fill="#ff6b6b"><circle cx="0" cy="92" r="6"/><circle cx="0" cy="124" r="5"/><circle cx="0" cy="188" r="5"/><circle cx="-34" cy="154" r="5"/><circle cx="-48" cy="192" r="5"/><circle cx="30" cy="150" r="5"/><circle cx="60" cy="142" r="5"/><circle cx="-36" cy="234" r="5"/><circle cx="-42" cy="278" r="5"/><circle cx="42" cy="228" r="5"/><circle cx="46" cy="276" r="5"/></g>
+  </g>
+  <g font-size="12" fill="#c9cfdb">
+    <rect x="456" y="40" width="160" height="176" rx="10" fill="#242832" stroke="#323846"/>
+    <text x="472" y="64" fill="#fff" font-weight="700">애니메이션</text>
+    <g><rect x="468" y="76" width="136" height="26" rx="6" fill="#4d6bfe"/><text x="480" y="93" fill="#fff">▶ Walk</text></g>
+    <text x="480" y="124">Run</text><text x="480" y="150">Wave</text><text x="480" y="176">Jump</text>
+    <rect x="468" y="186" width="136" height="22" rx="6" fill="#2f9e6e"/><text x="536" y="201" fill="#fff" text-anchor="middle">GLB 내보내기</text>
+  </g>
+  <g font-size="11" fill="#7c8597"><rect x="24" y="364" width="592" height="20" rx="6" fill="#242832"/><rect x="24" y="364" width="210" height="20" rx="6" fill="#4d6bfe" opacity=".5"/><text x="34" y="378">frame 18 / 48 · 리그 자동 매칭 완료 (뼈 22개)</text></g>
+</svg>
+</figure>
+  <div class="pick-body">
+    <p class="pick-meta"><span class="num">02</span> <a href="https://github.com/Mesh2Motion/mesh2motion-app" target="_blank" rel="noopener">Mesh2Motion/mesh2motion-app</a> <span class="lv lv-ready">로컬OK</span> <span class="muted">TypeScript · ★ 3.5k</span></p>
+    <h3>Mesh2Motion</h3>
+    <p class="tagline">3D 모델에 뼈대를 심고 애니메이션을 입힌다</p>
+    <p class="why">Mixamo처럼 리깅·모션을 자동으로 붙여 주는 브라우저 앱이다. 클라우드 업로드 없이 내 컴퓨터에서 처리된다.</p>
+    <h4>얻는 결과물</h4>
+    <ul class="outputs"><li>자동 리깅된 캐릭터</li><li>걷기·달리기 같은 애니메이션 프리셋</li><li>GLB로 내보낸 애니메이션 모델</li></ul>
+    <h4>해볼 만한 미니 프로젝트</h4>
+    <ul class="minis"><li><b>웹 게임 캐릭터</b><span>내보낸 GLB를 Three.js 씬에 불러와 방향키로 걷게 한다.</span></li><li><b>회사 마스코트 GIF</b><span>간단한 마스코트 모델에 손 흔들기 모션을 입혀 화면 녹화로 GIF·이모지를 만든다.</span></li></ul>
+    <p class="req"><span>필요: git, node</span><span>설치 규모: 소</span></p>
+    <div class="cmd"><code>repolab run mesh2motion-app</code><button type="button" class="copy" data-copy="repolab run mesh2motion-app">복사</button></div>
+  </div>
+</article>
+<article class="pick" id="pick-3" data-id="JohnHeibel/ClaudeAnimationBase">
+  <figure class="pick-art"><svg role="img" aria-label="Claude Animation Base 결과물 예시" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+  <rect width="640" height="400" fill="#1c1a2e"/>
+  <rect x="24" y="24" width="400" height="250" rx="10" fill="#28306a"/>
+  <circle cx="92" cy="74" r="22" fill="#f3ead2"/>
+  <g fill="#fff" opacity=".7"><circle cx="180" cy="60" r="1.6"/><circle cx="260" cy="90" r="1.4"/><circle cx="340" cy="56" r="1.8"/><circle cx="390" cy="110" r="1.3"/><circle cx="150" cy="120" r="1.2"/></g>
+  <path d="M24 214c90-36 190-30 260-6s110 22 140 8v58H24z" fill="#4f7a5b"/>
+  <path d="M250 222c60-28 130-30 174-18v70H250z" fill="#2f6f7a" opacity=".85"/>
+  <path d="M24 214c90-36 190-30 260-6" fill="none" stroke="#141326" stroke-width="2.2" stroke-linecap="round"/>
+  <g transform="translate(176 150)">
+    <path d="M0 6c1-6 56-7 58 0l2 44c-1 5-60 6-62 0z" fill="#d97757" stroke="#141326" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M-2 22l-14 6M60 22l14-8" stroke="#141326" stroke-width="5" stroke-linecap="round"/><path d="M-2 22l-14 6M60 22l14-8" stroke="#d97757" stroke-width="2.6" stroke-linecap="round"/>
+    <g stroke="#141326" stroke-width="2.2"><path d="M8 50v12M20 50v12M38 50v12M50 50v12"/></g>
+    <circle cx="18" cy="24" r="3.4" fill="#141326"/><circle cx="40" cy="24" r="3.4" fill="#141326"/>
+    <path d="M22 36c4 4 10 4 14 0" fill="none" stroke="#141326" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M70 -8l4 -10 4 10 10 4 -10 4 -4 10 -4 -10 -10 -4z" fill="#f6d27a"/>
+  </g>
+  <g font-size="11" fill="#9a97b8"><text x="436" y="44" fill="#e9e6ff" font-weight="700" font-size="13">out/sheet.jpg</text></g>
+  <g>
+    <rect x="436" y="54" width="86" height="56" rx="4" fill="#28306a"/><rect x="530" y="54" width="86" height="56" rx="4" fill="#28306a"/>
+    <rect x="436" y="118" width="86" height="56" rx="4" fill="#28306a"/><rect x="530" y="118" width="86" height="56" rx="4" fill="#28306a"/>
+    <rect x="436" y="182" width="86" height="56" rx="4" fill="#28306a"/><rect x="530" y="182" width="86" height="56" rx="4" fill="#28306a"/>
+    <g fill="#4f7a5b"><path d="M436 96c30-10 60-8 86 0v14h-86z"/><path d="M530 96c30-10 60-8 86 0v14h-86z"/><path d="M436 160c30-10 60-8 86 0v14h-86z"/><path d="M530 160c30-10 60-8 86 0v14h-86z"/><path d="M436 224c30-10 60-8 86 0v14h-86z"/><path d="M530 224c30-10 60-8 86 0v14h-86z"/></g>
+    <g fill="#d97757"><rect x="470" y="82" width="18" height="12" rx="2"/><rect x="566" y="78" width="14" height="16" rx="2"/><rect x="468" y="144" width="18" height="14" rx="2"/><rect x="560" y="146" width="18" height="12" rx="2"/><rect x="474" y="206" width="14" height="16" rx="2"/><rect x="566" y="204" width="16" height="16" rx="2"/></g>
+    <g font-size="9" fill="#cfcce8"><text x="440" y="64">0.0s</text><text x="534" y="64">1.0s</text><text x="440" y="128">2.0s</text><text x="534" y="128">3.0s</text><text x="440" y="192">4.0s</text><text x="534" y="192">5.0s</text></g>
+  </g>
+  <g font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#b9b6d6">
+    <rect x="24" y="290" width="592" height="88" rx="10" fill="#14131f" stroke="#2c2a45"/>
+    <text x="40" y="314"><tspan fill="#7fd1a8">$</tspan> node render.mjs --clip --out=out/video.mp4</text>
+    <text x="40" y="336">frame 264/264  120 ms/frame</text>
+    <text x="40" y="358" fill="#7fd1a8">wrote out/video.mp4  · 11초 · 감정 31종 캐릭터 Clawd</text>
+  </g>
+</svg>
+</figure>
+  <div class="pick-body">
+    <p class="pick-meta"><span class="num">03</span> <a href="https://github.com/JohnHeibel/ClaudeAnimationBase" target="_blank" rel="noopener">JohnHeibel/ClaudeAnimationBase</a> <span class="lv lv-ready">로컬OK</span> <span class="muted">JavaScript · ★ 1.3k</span></p>
+    <h3>Claude Animation Base</h3>
+    <p class="tagline">손그림 카툰을 코드로 그리고 MP4로 뽑는다</p>
+    <p class="why">p5.js와 p5.brush로 붓질·수채 느낌의 카툰을 그리는 스타터 키트다. 캐릭터 Clawd와 감정 31가지, 장면 타임라인, 헤드리스 렌더러가 들어 있다. 클론하고 npm install 한 번이면 데모 영상이 나오고, 코딩 에이전트에게 ANIMATION_GUIDE.md를 읽힌 뒤 장면을 주문할 수도 있다.</p>
+    <h4>얻는 결과물</h4>
+    <ul class="outputs"><li>out/sheet.jpg — 1초 간격 6컷 콘티 시트</li><li>out/video.mp4 — 11초짜리 데모 애니메이션</li><li>studio.html — 브라우저에서 프레임을 넘겨 보는 스튜디오</li></ul>
+    <h4>해볼 만한 미니 프로젝트</h4>
+    <ul class="minis"><li><b>15초 생일 카드 영상</b><span>Clawd가 케이크 촛불을 불어 끄는 장면을 src/scenes/에 짜고 render.mjs로 MP4를 뽑아 메신저로 보낸다.</span></li><li><b>우리 팀 마스코트 감정 시트</b><span>캐릭터 모양만 바꿔 감정 31가지를 다시 그리고 ?loop=emotions 화면을 녹화해 이모지 GIF 세트를 만든다.</span></li></ul>
+    <p class="req"><span>필요: git, node, Google Chrome, ffmpeg</span><span>설치 규모: 소 (npm 패키지 46개)</span></p>
+    <div class="cmd"><code>repolab run ClaudeAnimationBase</code><button type="button" class="copy" data-copy="repolab run ClaudeAnimationBase">복사</button></div>
+  </div>
+</article>
+<article class="pick" id="pick-4" data-id="storytold/artcraft">
+  <figure class="pick-art"><svg role="img" aria-label="ArtCraft 결과물 예시" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+  <rect width="640" height="400" fill="#17181c"/>
+  <rect x="0" y="0" width="640" height="30" fill="#202228"/>
+  <g font-size="12" fill="#9ea3ae"><text x="16" y="20" fill="#fff" font-weight="700">ArtCraft</text><text x="96" y="20">2D</text><text x="128" y="20" fill="#fff">3D 장면</text><text x="190" y="20">이미지</text><text x="240" y="20">영상</text></g>
+  <rect x="0" y="30" width="48" height="370" fill="#1d1f24"/>
+  <g fill="#3a3e48"><rect x="12" y="46" width="24" height="24" rx="6" fill="#6c5ce7"/><rect x="12" y="80" width="24" height="24" rx="6"/><rect x="12" y="114" width="24" height="24" rx="6"/><rect x="12" y="148" width="24" height="24" rx="6"/></g>
+  <g transform="translate(60 42)">
+    <rect width="376" height="236" rx="8" fill="#23262e"/>
+    <g stroke="#343844"><path d="M0 170L376 170M40 236L130 170M150 236L170 170M260 236L220 170M376 220L280 170"/></g>
+    <path d="M40 40h120v130H40z" fill="#3b4252"/><path d="M160 40l50 -18v130l-50 18z" fill="#2e3440"/>
+    <path d="M250 110l50 -30 50 30v60h-100z" fill="#4c566a"/>
+    <g transform="translate(210 96)" stroke="#e5c07b" stroke-width="3" stroke-linecap="round" fill="none"><circle cx="0" cy="0" r="9" fill="#e5c07b" stroke="none"/><path d="M0 9v34M0 18l-16 16M0 18l18 10M0 43l-12 30M0 43l12 30"/></g>
+    <g transform="translate(320 46)"><path d="M0 0l26 -10v24z" fill="#61afef"/><path d="M0 0l-140 70" stroke="#61afef" stroke-dasharray="4 4" stroke-width="1.5"/><text x="-8" y="26" font-size="11" fill="#61afef">카메라 1</text></g>
+  </g>
+  <g transform="translate(448 42)">
+    <rect width="176" height="236" rx="8" fill="#23262e"/>
+    <text x="14" y="24" font-size="12" fill="#fff" font-weight="700">생성 결과</text>
+    <rect x="14" y="36" width="70" height="52" rx="5" fill="#5e4b8b"/><rect x="92" y="36" width="70" height="52" rx="5" fill="#8b5e4b"/>
+    <rect x="14" y="96" width="70" height="52" rx="5" fill="#4b6e8b"/><rect x="92" y="96" width="70" height="52" rx="5" fill="#4b8b6a"/>
+    <g fill="#e5c07b"><circle cx="49" cy="58" r="6"/><circle cx="127" cy="58" r="6"/><circle cx="49" cy="118" r="6"/><circle cx="127" cy="118" r="6"/></g>
+    <text x="14" y="174" font-size="11" fill="#9ea3ae">같은 방 · 같은 포즈</text>
+    <text x="14" y="192" font-size="11" fill="#9ea3ae">카메라만 바꾼 4컷</text>
+    <rect x="14" y="204" width="148" height="22" rx="6" fill="#6c5ce7"/><text x="88" y="219" font-size="11" fill="#fff" text-anchor="middle">이미지 → 영상</text>
+  </g>
+  <g font-size="12" fill="#c8ccd4">
+    <rect x="60" y="292" width="564" height="88" rx="8" fill="#202228"/>
+    <text x="76" y="316" fill="#fff" font-weight="700">프롬프트</text>
+    <text x="76" y="340">창가에 선 인물, 오후 햇살, 35mm 필름 느낌</text>
+    <rect x="76" y="352" width="96" height="18" rx="9" fill="#343844"/><text x="124" y="365" font-size="10" text-anchor="middle">이미지 모델 선택</text>
+    <rect x="180" y="352" width="70" height="18" rx="9" fill="#343844"/><text x="215" y="365" font-size="10" text-anchor="middle">16:9</text>
+    <rect x="520" y="346" width="88" height="26" rx="8" fill="#6c5ce7"/><text x="564" y="363" fill="#fff" text-anchor="middle">생성</text>
+  </g>
+</svg>
+</figure>
+  <div class="pick-body">
+    <p class="pick-meta"><span class="num">04</span> <a href="https://github.com/storytold/artcraft" target="_blank" rel="noopener">storytold/artcraft</a> <span class="lv lv-heavy">무거움</span> <span class="muted">Rust · ★ 34k</span></p>
+    <h3>ArtCraft</h3>
+    <p class="tagline">장면을 먼저 짜고 생성하는 AI 이미지·영상 IDE</p>
+    <p class="why">2D 레이어 합성, 3D 장면 배치, 캐릭터 포즈, 카메라 위치를 먼저 잡은 뒤 이미지·영상 모델로 생성하는 데스크톱 앱(Rust·Tauri)이다. 생성은 클라우드 모델이 하므로 내 컴퓨터에 GPU가 필요 없다. 대신 생성에는 계정이 필요하고, 소스 빌드는 무겁다. 빌드 없이 쓰려면 공식 사이트의 Windows·macOS 설치본을 받는다.</p>
+    <h4>얻는 결과물</h4>
+    <ul class="outputs"><li>직접 빌드한 ArtCraft 데스크톱 앱 (개발 모드)</li><li>3D 장면·포즈·카메라를 고정해 뽑은 일관된 컷</li><li>이미지 → 영상, 이미지 → 3D 메시 결과물</li></ul>
+    <h4>해볼 만한 미니 프로젝트</h4>
+    <ul class="minis"><li><b>4컷 스토리보드</b><span>같은 방(Image to Location)에 인물을 세우고 카메라만 옮겨 4컷을 뽑아, 짧은 영상 콘티로 쓴다.</span></li><li><b>상품 소품 컷</b><span>상품 사진의 배경을 지우고 3D 장면에 올려 각도·조명이 다른 홍보 이미지를 여러 장 만든다.</span></li></ul>
+    <p class="req"><span>필요: git, node 20+, cargo (Rust), tauri-cli 2</span><span>설치 규모: 대 (Rust 빌드 수 GB, 첫 빌드 수십 분)</span></p>
+    <div class="cmd"><code>repolab run artcraft</code><button type="button" class="copy" data-copy="repolab run artcraft">복사</button></div>
+  </div>
+</article>
+<article class="pick" id="pick-5" data-id="wheresryan22/anatomy">
+  <figure class="pick-art"><svg role="img" aria-label="Anatomy 결과물 예시" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+  <rect width="640" height="400" fill="#efeee8"/>
+  <rect x="24" y="24" width="592" height="352" rx="6" fill="#f8f7f2" stroke="#1b1b19" stroke-width="1.5"/>
+  <text x="44" y="56" font-size="12" fill="#6b6a64">FIG. 3</text>
+  <text x="44" y="80" font-size="20" font-weight="800" fill="#1b1b19">토큰 버킷 속도 제한기</text>
+  <text x="44" y="100" font-size="12" fill="#6b6a64">마우스를 올리면 토큰이 떨어지고, 요청이 하나씩 빠져나간다</text>
+  <g transform="translate(320 258) scale(.85)" stroke="#1b1b19" stroke-width="1.6" stroke-linejoin="round">
+    <path d="M-150 30l150 -86 150 86 -150 86z" fill="#d8d6cc"/>
+    <path d="M-150 30v14l150 86v-14zM150 30v14l-150 86v-14z" fill="#b9b7ac"/>
+    <path d="M60 -20l70 40v18l-70 -40z" fill="#c9c6ba"/>
+    <g fill="#5a8fd8"><path d="M96 4l16 9 -16 9 -16 -9z"/><path d="M128 22l16 9 -16 9 -16 -9z" opacity=".6"/></g>
+    <path d="M-60 -10l60 34 60 -34 -60 -34z" fill="#c4c1b5"/>
+    <g fill="#e0a53a"><ellipse cx="-14" cy="-6" rx="12" ry="7"/><ellipse cx="14" cy="-2" rx="12" ry="7"/><ellipse cx="0" cy="-18" rx="12" ry="7"/><ellipse cx="22" cy="-18" rx="12" ry="7"/></g>
+    <path d="M-60 -10v-80l60 34v80z" fill="#cfccc0" opacity=".45"/><path d="M60 -10v-80l-60 34v80z" fill="#e2dfd5" opacity=".45"/>
+    <path d="M-60 -90l60 -34 60 34 -60 34z" fill="none"/>
+    <g fill="#e0a53a"><ellipse cx="0" cy="-140" rx="12" ry="7"/></g><path d="M0 -128v20" fill="none" stroke-dasharray="3 3"/>
+  </g>
+  <g font-size="11" fill="#1b1b19">
+    <path d="M340 139h124" stroke="#1b1b19"/><text x="470" y="143">보충기 · 초당 4개</text>
+    <path d="M352 214h112" stroke="#1b1b19"/><text x="470" y="218">버킷 · 용량 10</text>
+    <path d="M432 269h32" stroke="#1b1b19"/><text x="470" y="273">통과한 요청</text>
+  </g>
+  <g font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#1b1b19">
+    <rect x="44" y="318" width="190" height="40" rx="6" fill="#1b1b19"/>
+    <text x="58" y="343" fill="#e0a53a">tokens 4 / 10 · 허용 ✓</text>
+  </g>
+</svg>
+</figure>
+  <div class="pick-body">
+    <p class="pick-meta"><span class="num">05</span> <a href="https://github.com/wheresryan22/anatomy" target="_blank" rel="noopener">wheresryan22/anatomy</a> <span class="lv lv-skill">스킬</span> <span class="muted">JavaScript · ★ 17k</span></p>
+    <h3>Anatomy</h3>
+    <p class="tagline">개념을 움직이는 아이소메트릭 기계 그림으로 설명한다</p>
+    <p class="why">&quot;캐시 키&quot;를 핀 텀블러 자물쇠로 바꾸듯, 기술 개념을 실제로 작동하는 물건으로 바꿔 수십 개 부품의 SVG·WebGL 그림으로 그려 주는 에이전트 스킬이다. 의존성이 없고 API 키도 필요 없다. 완성된 예제 페이지가 저장소에 들어 있어 클론만 해도 바로 열어 볼 수 있다.</p>
+    <h4>얻는 결과물</h4>
+    <ul class="outputs"><li>examples/의 인터랙티브 그림 9종 (로켓 엔진, 리플 탱크, 다이얼 게이지 …)</li><li>마우스를 올리면 분해·작동하는 단일 HTML 그림</li><li>/anatomy 명령으로 직접 주문한 내 개념도</li></ul>
+    <h4>해볼 만한 미니 프로젝트</h4>
+    <ul class="minis"><li><b>우리 서비스 아키텍처 기계도</b><span>&quot;요청 큐와 워커&quot;를 컨베이어 벨트와 작업대로 그려 달라고 주문해 사내 위키 첫 화면에 붙인다.</span></li><li><b>수업용 원리 그림</b><span>토큰 버킷, 해시 테이블처럼 설명하기 어려운 개념을 손으로 돌려 보는 그림으로 만들어 발표 자료에 넣는다.</span></li></ul>
+    <p class="req"><span>필요: git, node 20.10+ (스킬 사용 시), Claude Code·Codex 등 코딩 에이전트</span><span>설치 규모: 소 (의존성 0)</span></p>
+    <div class="cmd"><code>repolab run anatomy</code><button type="button" class="copy" data-copy="repolab run anatomy">복사</button></div>
+  </div>
+</article>
+<article class="pick" id="pick-6" data-id="alchaincyf/huashu-art-motion">
+  <figure class="pick-art"><svg role="img" aria-label="huashu-art-motion 결과물 예시" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+  <rect width="640" height="400" fill="#141414"/>
+  <g transform="translate(24 24)">
+    <rect width="188" height="230" rx="6" fill="#3c4fa8"/>
+    <g fill="none" stroke-linecap="round" stroke-width="3">
+      <path d="M14 30c20-10 30 10 50 0s30-12 50 0 30 8 60-4" stroke="#7d93e8"/><path d="M14 54c24-8 36 12 60 2s34-10 50 0 24 6 50-2" stroke="#5b70cf"/>
+      <path d="M118 44a18 18 0 1 1 30 14" stroke="#f2d25c"/><path d="M60 90c10-14 30-14 40 0" stroke="#f2d25c"/>
+      <path d="M14 120c30-6 60 6 90 0s50-8 70 0" stroke="#7d93e8"/>
+    </g>
+    <circle cx="134" cy="46" r="10" fill="#f2d25c"/>
+    <path d="M0 160h188v70H0z" fill="#b5652f"/><g stroke="#8a4721" stroke-width="2"><path d="M0 176h188M0 196h188M0 214h188"/></g>
+    <path d="M40 106l8 -64 8 64z" fill="#1f3d2a"/>
+    <text x="10" y="222" font-size="11" fill="#fff" font-weight="700">1888 후기인상파</text>
+  </g>
+  <g transform="translate(226 24)">
+    <rect width="188" height="230" rx="6" fill="#ede6d6"/>
+    <g fill="none" stroke="#2a2a2a" stroke-linecap="round"><path d="M20 160c20-40 40-70 60-90 10 30 30 50 40 90" stroke-width="5" opacity=".85"/><path d="M90 170c16-30 34-50 50-60 8 24 20 40 28 60" stroke-width="3" opacity=".5"/><path d="M10 190c50-6 110-6 170 0" stroke-width="2" opacity=".6"/></g>
+    <circle cx="148" cy="48" r="16" fill="#c6402e"/>
+    <text x="10" y="222" font-size="11" fill="#2a2a2a" font-weight="700">수묵 산수</text>
+  </g>
+  <g transform="translate(428 24)">
+    <rect width="188" height="230" rx="6" fill="#5c94fc"/>
+    <g fill="#c84c0c"><rect x="40" y="70" width="24" height="24"/><rect x="88" y="70" width="24" height="24"/></g>
+    <rect x="64" y="70" width="24" height="24" fill="#fac000"/><text x="70" y="88" font-size="16" font-weight="800" fill="#c84c0c">?</text>
+    <g fill="#00a800"><rect x="130" y="140" width="40" height="60"/><rect x="124" y="132" width="52" height="14"/></g>
+    <path d="M0 200h188v30H0z" fill="#c84c0c"/>
+    <g fill="#e52521"><rect x="44" y="160" width="20" height="12"/></g><rect x="44" y="172" width="20" height="16" fill="#3c40b8"/><rect x="48" y="150" width="14" height="10" fill="#f4b88c"/>
+    <circle cx="76" cy="56" r="6" fill="#fac000"/>
+    <text x="10" y="222" font-size="11" fill="#fff" font-weight="700">8-bit 픽셀</text>
+  </g>
+  <g font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#b9b9b9">
+    <rect x="24" y="270" width="592" height="106" rx="8" fill="#1f1f1f" stroke="#2e2e2e"/>
+    <text x="40" y="294"><tspan fill="#9ad18b">$</tspan> uv run --with playwright python scripts/engine/render.py \</text>
+    <text x="56" y="314">--spec scripts/engine/examples/t3_finance_chart.json --out chart.mp4</text>
+    <text x="40" y="336">0/210 · 60/210 · 120/210 · 180/210</text>
+    <text x="40" y="358" fill="#9ad18b">done -&gt; chart.mp4   · 화풍 35종 · 해설 문법 9종</text>
+  </g>
+</svg>
+</figure>
+  <div class="pick-body">
+    <p class="pick-meta"><span class="num">06</span> <a href="https://github.com/alchaincyf/huashu-art-motion" target="_blank" rel="noopener">alchaincyf/huashu-art-motion</a> <span class="lv lv-skill">스킬</span> <span class="muted">JavaScript · ★ 4.6k</span></p>
+    <h3>huashu-art-motion</h3>
+    <p class="tagline">35가지 미술 화풍으로 움직이는 그림을 코드로 렌더링한다</p>
+    <p class="why">동굴 벽화부터 고흐, 우키요에, 8비트까지 화풍마다 붓질·색·전환을 코드로 옮긴 레시피와 장면 코드가 들어 있는 애니메이션 스킬이다. 브라우저 캔버스로 그린 뒤 Playwright와 ffmpeg로 프레임을 뽑아 MP4를 만든다. 문서는 중국어지만 렌더러는 명령 한 줄로 돈다.</p>
+    <h4>얻는 결과물</h4>
+    <ul class="outputs"><li>화풍별 정지 프레임 (예: 고흐 후기인상파 장면 PNG)</li><li>spec JSON 한 장으로 만드는 해설 애니메이션 MP4 (예: 금융 차트)</li><li>배경음까지 코드로 합성한 짧은 아트 필름</li></ul>
+    <h4>해볼 만한 미니 프로젝트</h4>
+    <ul class="minis"><li><b>우리 동네 미술사 투어</b><span>같은 골목 구도를 수묵화·인상파·픽셀아트 세 화풍으로 렌더링해 전환이 이어지는 30초 영상을 만든다.</span></li><li><b>월간 지표 해설 영상</b><span>예제 spec의 숫자와 라벨만 바꿔 이번 달 매출 그래프가 그려지는 해설 클립을 뽑는다.</span></li></ul>
+    <p class="req"><span>필요: git, uv (Python), ffmpeg, Playwright Chromium</span><span>설치 규모: 중 (Chromium 약 100MB)</span></p>
+    <div class="cmd"><code>repolab run huashu-art-motion</code><button type="button" class="copy" data-copy="repolab run huashu-art-motion">복사</button></div>
+  </div>
+</article>
+  </div>
+  <p class="art-note">그림은 실제 스크린샷이 아니라 결과물 형태를 보여 주는 일러스트다. 그림 속 수치(속도·메모리 등)도 예시다.</p>
+</div></section>
+
+<section id="mentions"><div class="wrap">
+  <h2>그 밖에 볼 만한 것</h2>
+  <p class="section-sub">준비가 조금 더 들거나 쓰임새가 좁지만 손대 볼 가치가 있는 레포.</p>
+  <ul class="mentions"><li><a href="https://github.com/dgreenheck/tidewater" target="_blank" rel="noopener">dgreenheck/tidewater</a><span>WebGPU 섬 낚시 게임. 3D 품질은 최고지만 README가 성능 좋은 GPU와 WebGPU 브라우저를 요구한다.</span></li><li><a href="https://github.com/edwardkim/rhwp" target="_blank" rel="noopener">edwardkim/rhwp</a><span>HWP를 SVG로 내보내는 Rust CLI와 웹 에디터. WASM 빌드는 Docker를 쓴다.</span></li><li><a href="https://github.com/firecrawl/anydoc" target="_blank" rel="noopener">firecrawl/anydoc</a><span>Word·PPT·Excel·EPUB → Markdown. Node/Python 바인딩이 있다.</span></li><li><a href="https://github.com/nilbuild/page-mascot" target="_blank" rel="noopener">nilbuild/page-mascot</a><span>커서를 쳐다보는 마스코트를 내 블로그에 붙인다.</span></li><li><a href="https://github.com/jeffhajewski/latticedb" target="_blank" rel="noopener">jeffhajewski/latticedb</a><span>단일 파일 지식그래프 DB. Zig 툴체인으로 빌드한다.</span></li><li><a href="https://github.com/naver/d2-coding-font" target="_blank" rel="noopener">naver/d2-coding-font</a><span>설치만 하면 되는 개발용 한글 글꼴.</span></li><li><a href="https://github.com/LibreSprite/LibreSprite" target="_blank" rel="noopener">LibreSprite/LibreSprite</a><span>픽셀 아트 에디터. 소스 빌드는 무겁고 CMake가 필요하다.</span></li><li><a href="https://github.com/coollabsio/coolify" target="_blank" rel="noopener">coollabsio/coolify</a><span>남는 PC나 VPS에 개인 Vercel을 차린다. Docker가 필요하다.</span></li><li><a href="https://github.com/vincentsch/explainroo" target="_blank" rel="noopener">vincentsch/explainroo</a><span>로컬 TTS·Whisper로 내레이션 영상 생성. CPU로 되지만 느리고 모델이 크다.</span></li></ul>
+</div></section>
+
+<section id="all"><div class="wrap">
+  <h2>전체 목록</h2>
+  <p class="section-sub">로컬 실행 등급은 설명과 매니페스트를 보고 매긴 판단이다. 별·포크 수는 붙여 넣은 목록의 스냅샷이다.</p>
+  <div class="filters">
+    <label class="sr" for="q">검색</label>
+    <input id="q" type="search" placeholder="이름·설명 검색 (예: hwp, rust, 애니메이션)" autocomplete="off">
+    <label class="sr" for="cat">카테고리</label>
+    <select id="cat"><option value="">모든 카테고리</option></select>
+    <label class="sr" for="sort">정렬</label>
+    <select id="sort"><option value="stars">별 많은 순</option><option value="forks">포크 많은 순</option><option value="name">이름순</option></select>
+  </div>
+  <div class="chips" id="levels" role="group" aria-label="로컬 실행 등급"></div>
+  <p class="count" id="count" aria-live="polite"></p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>레포</th><th>설명</th><th>언어</th><th style="text-align:right">★</th><th>로컬</th><th>카테고리</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+</div></section>
+
+<section id="cli"><div class="wrap">
+  <h2>CLI로 검색하고 바로 돌리기</h2>
+  <p class="section-sub"><code>repolab</code>은 이 목록을 터미널에서 검색하고, 얕은 클론과 설치·실행까지 이어 주는 도구다. 의존성 없이 Node.js 18 이상과 git만 있으면 macOS·Windows·Linux에서 똑같이 돈다.</p>
+  <div class="cli-grid">
+    <div class="panel">
+      <h3>설치</h3>
+<pre><span class="c"># 이 폴더에서 바로</span>
+node bin/repolab.mjs help
+
+<span class="c"># 어디서나 repolab 으로 쓰기</span>
+npm link
+repolab doctor   <span class="c"># git/node/cargo/python 점검</span></pre>
+    </div>
+    <div class="panel">
+      <h3>찾아보기</h3>
+<pre>repolab picks                     <span class="c"># 추천 6선</span>
+repolab search hwp markdown       <span class="c"># AND 검색</span>
+repolab list --local ready --lang Rust
+repolab show anatomy              <span class="c"># 일부 이름도 OK</span>
+repolab cats                      <span class="c"># 분류별 개수</span></pre>
+    </div>
+    <div class="panel">
+      <h3>클론하고 실행</h3>
+<pre>repolab clone anime               <span class="c"># ~/repolab 에 --depth 1</span>
+repolab run mesh2motion-app       <span class="c"># 클론→설치→실행 (확인 후)</span>
+repolab run artcraft --dry-run    <span class="c"># 계획만 보기</span>
+repolab serve anatomy --open
+repolab check --all               <span class="c"># 레포 존재 확인</span></pre>
+    </div>
+    <div class="panel">
+      <h3>로컬 실행 등급</h3>
+      <ul class="legend" id="legend"></ul>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <code>repolab html</code>로 다시 만든 페이지 · 데이터: data/repos.json, data/picks.json · 레포 정보는 2026-10-20 스냅샷이므로 실행 전 각 README를 확인할 것.
+</div></footer>
+
+<script>
+const DATA = {"meta":{"title":"GitHub 트렌딩 레포 90선","collected":"2026-10-20","note":"별/포크/업데이트 수치는 사용자가 붙여 넣은 목록 기준 스냅샷이다. local 등급은 설명과 매니페스트를 근거로 한 판단이며, picks의 실행 레시피는 2026-10-20 기준 README·package.json에서 확인했다.","levels":{"ready":"CPU만으로 로컬 실행 가능","heavy":"Docker·대형 빌드·모델 다운로드 등 준비가 큼 (GPU는 불필요)","gpu":"GPU 사실상 필수","apple":"Apple Silicon 전용","key":"외부 LLM/API 키 필요","skill":"AI 에이전트(Claude Code·Codex 등)용 스킬/하네스","unknown":"설명이 부족해 README 확인 필요"}},"repos":[{"id":"google-research/harness2","lang":"Python","stars":13212,"forks":1224,"updated":"last week","desc":"","ko":"Google Research의 하네스 프로젝트 (설명 없음)","cat":"AI·에이전트","local":"unknown"},{"id":"wheresryan22/anatomy","lang":"JavaScript","stars":17181,"forks":1307,"updated":"2 days ago","desc":"An agent skill for creating detailed, interactive isometric illustrations of real-world machines and complex systems. Generates polished SVGs with optional WebGL shaders and 3D effects.","ko":"실제 기계·복잡한 시스템을 아이소메트릭 인터랙티브 SVG 일러스트로 그려 주는 에이전트 스킬","cat":"에이전트 스킬","local":"skill","pick":true},{"id":"withmarbleapp/os-taxonomy","lang":"JavaScript","stars":6382,"forks":1032,"updated":"10 minutes ago","desc":"","ko":"OS 분류 체계 데이터 (설명 없음)","cat":"데이터","local":"unknown"},{"id":"Friedrich-M/UniMate","lang":"Python","stars":2044,"forks":223,"updated":"2 weeks ago","desc":"[SIGGRAPH Asia 2026] UniMate: One Unified Model to Animate Diverse Skeletons","ko":"다양한 스켈레톤을 하나의 모델로 애니메이션 (SIGGRAPH Asia 2026 논문 코드)","cat":"3D·그래픽","local":"gpu"},{"id":"Hybirdss/Hycli","lang":"Rust","stars":344,"forks":82,"updated":"4 minutes ago","desc":"Websites, ready for AI. Turn website tasks into verified CLI and MCP actions, with a local dashboard and 20 languages.","ko":"웹사이트 작업을 검증된 CLI·MCP 액션으로 변환, 로컬 대시보드 제공","cat":"개발 도구","local":"ready"},{"id":"storytold/artcraft","lang":"Rust","stars":34041,"forks":5391,"updated":"2 days ago","desc":"ArtCraft is an intentional crafting engine for artists, designers, and filmmakers","ko":"아티스트·디자이너·영상 제작자를 위한 크래프팅 엔진","cat":"디자인·UI","local":"heavy","pick":true},{"id":"Mesh2Motion/mesh2motion-app","lang":"TypeScript","stars":3537,"forks":358,"updated":"2 weeks ago","desc":"Import a 3D Model and automatically assign and export animations","ko":"3D 모델을 불러와 자동 리깅·애니메이션 지정 후 내보내기 (브라우저 앱)","cat":"3D·그래픽","local":"ready","pick":true},{"id":"unslothai/unsloth","lang":"Python","stars":78297,"forks":7246,"updated":"1 minute ago","desc":"Local UI to run and train LLMs and diffusion models. Supports GGUF, MLX, Qwen3.8, DeepSeek-V4, MiniMax-H3, Gemma 4, FLUX and more.","ko":"LLM·디퓨전 모델 로컬 실행·파인튜닝 UI","cat":"AI·LLM","local":"gpu"},{"id":"excalidraw/excalidraw","lang":"TypeScript","stars":134230,"forks":15757,"updated":"54 minutes ago","desc":"Virtual whiteboard for sketching hand-drawn like diagrams","ko":"손그림 느낌 다이어그램 화이트보드","cat":"디자인·UI","local":"ready"},{"id":"morluto/rea","lang":"TypeScript","stars":341292,"forks":86106,"updated":"21 minutes ago","desc":"Reverse engineer anything with agents, from app behavior down to native binaries.","ko":"에이전트로 앱 동작부터 네이티브 바이너리까지 리버스 엔지니어링","cat":"보안","local":"key"},{"id":"tangency-labs/solidcraft","lang":"Rust","stars":7708,"forks":888,"updated":"11 minutes ago","desc":"SolidCraft: an open-source parametric 3D CAD application built in pure Rust. Desktop, web, and automation through MCP.","ko":"순수 Rust 파라메트릭 3D CAD (데스크톱·웹·MCP 자동화)","cat":"3D·그래픽","local":"ready"},{"id":"AbubakrChan/product-launch-motion","lang":"JavaScript","stars":326,"forks":49,"updated":"5 days ago","desc":"Claude Code skill for Dribbble-level product launch videos from code.","ko":"코드로 제품 런칭 영상을 만드는 Claude Code 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"raphysicst-create/korean-secondary-learning-map-mcp","lang":"JavaScript","stars":19,"forks":4,"updated":"on Aug 25","desc":"korean-secondary-learning-map","ko":"중등 교육과정 학습맵 MCP 서버","cat":"MCP·교육","local":"ready"},{"id":"oil-oil/oil-ui","lang":"Python","stars":1883,"forks":104,"updated":"2 days ago","desc":"UI design skill for Claude Code, Codex and other AI agents: explore distinct directions, compare them side by side, refine against real screenshots.","ko":"여러 UI 방향을 비교·스크린샷 기반으로 다듬는 디자인 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"shaongitbd/doory","lang":"TypeScript","stars":1658,"forks":126,"updated":"8 hours ago","desc":"Open source canva alternative","ko":"오픈소스 Canva 대체","cat":"디자인·UI","local":"unknown"},{"id":"dzhng/jevgrep","lang":"TypeScript","stars":2826,"forks":214,"updated":"1 hour ago","desc":"Find code by asking what it does. A CLI for coding agents that uses Jev to discover relevant files and source context.","ko":"\"무엇을 하는 코드인지\" 물어서 찾는 에이전트용 검색 CLI","cat":"개발 도구","local":"key"},{"id":"opellen/OpenGoal","lang":"TypeScript","stars":12,"forks":2,"updated":"last week","desc":"Goal-centric AI harness — plain markdown, zero runtime, the goal always in view.","ko":"목표 중심 마크다운 AI 하네스","cat":"에이전트 스킬","local":"skill"},{"id":"chrisryugj/korean-law-mcp","lang":"TypeScript","stars":2743,"forks":582,"updated":"last week","desc":"MCP server for Korean law — search statutes, precedents, and ordinances, and verify citations","ko":"법제처 법령·판례·조례 검색 MCP 서버 (법제처 Open API 키 필요)","cat":"MCP·교육","local":"key"},{"id":"Canine89/suneung-math-hwpx","lang":"Python","stars":4,"forks":1,"updated":"last week","desc":"수능형 문제지(hwpx) 제작 — Claude Code 스킬, AGENTS.md, 조판 도구","ko":"수능형 수학 문제지 HWPX 제작 스킬","cat":"문서·HWP","local":"skill"},{"id":"Canine89/gonggong_hwpxskills","lang":"Python","stars":76,"forks":34,"updated":"on Feb 14","desc":"","ko":"공공기관 HWPX 문서 스킬 모음","cat":"문서·HWP","local":"skill"},{"id":"Canine89/hwpxskill","lang":"Python","stars":326,"forks":92,"updated":"on Jun 27","desc":"","ko":"HWPX 문서 작성 스킬","cat":"문서·HWP","local":"skill"},{"id":"coollabsio/coolify","lang":"PHP","stars":63263,"forks":5692,"updated":"11 minutes ago","desc":"An open-source, self-hostable PaaS alternative to Vercel, Heroku & Netlify.","ko":"셀프호스팅 PaaS (Vercel·Heroku 대체), Docker 필요","cat":"인프라","local":"heavy"},{"id":"tarwin/tinyjsapp","lang":"C","stars":1264,"forks":43,"updated":"1 hour ago","desc":"Build native apps in JS. Backend, frontend. ~5Mb.","ko":"JS로 ~5MB 네이티브 앱 만들기 (C 컴파일러 필요)","cat":"개발 도구","local":"ready"},{"id":"TNTcraftHIM/Piik","lang":"TypeScript","stars":3420,"forks":206,"updated":"15 hours ago","desc":"Free, open-source screen sharing for private live streams with friends.","ko":"친구끼리 쓰는 오픈소스 화면 공유·셀프호스팅","cat":"인프라","local":"ready"},{"id":"vincentsch/explainroo","lang":"JavaScript","stars":613,"forks":39,"updated":"1 hour ago","desc":"Explainer videos and product demos made by your AI agent. Local voice (Kokoro), word timing (Whisper) and a canvas renderer turn a script into a narrated MP4.","ko":"스크립트를 로컬 TTS·Whisper로 내레이션 MP4로 변환 (CPU 가능, 모델 다운로드 큼)","cat":"영상·모션","local":"heavy"},{"id":"shadcn-ui/ui","lang":"TypeScript","stars":126009,"forks":13630,"updated":"yesterday","desc":"Composable, accessible components with thoughtful defaults.","ko":"복사해 쓰는 React 컴포넌트 라이브러리","cat":"디자인·UI","local":"ready"},{"id":"raphaelsalaja/skill","lang":"","stars":41,"forks":4,"updated":"on Mar 18","desc":"A skill file based on the articles written on userinterface.wiki.","ko":"userinterface.wiki 기반 UI 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"millionco/react-doctor","lang":"TypeScript","stars":15021,"forks":490,"updated":"1 minute ago","desc":"Your agent writes bad React. This catches it","ko":"에이전트가 쓴 나쁜 React 코드를 잡는 검사기","cat":"개발 도구","local":"ready"},{"id":"microsoft/playwright-cli","lang":"TypeScript","stars":14406,"forks":828,"updated":"11 hours ago","desc":"CLI for common Playwright actions. Record and generate Playwright code, inspect selectors and take screenshots.","ko":"Playwright 브라우저 조작·스크린샷·코드 생성 CLI","cat":"개발 도구","local":"ready"},{"id":"jakubkrehel/make-interfaces-feel-better","lang":"Markdown","stars":3735,"forks":155,"updated":"on Aug 30","desc":"An agent skill that helps make your interface feel better.","ko":"인터페이스 손맛을 개선하는 에이전트 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"emilkowalski/skills","lang":"Markdown","stars":47803,"forks":2760,"updated":"last week","desc":"Skills for Designers and Engineers.","ko":"디자이너·엔지니어용 스킬 모음","cat":"에이전트 스킬","local":"skill"},{"id":"ibelick/ui-skills","lang":"TypeScript","stars":9890,"forks":461,"updated":"37 minutes ago","desc":"Skills for Design Engineers","ko":"디자인 엔지니어용 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"naver/d2-coding-font","lang":"Python","stars":2269,"forks":241,"updated":"2 weeks ago","desc":"D2 Coding 글꼴","ko":"네이버 D2 Coding 개발용 글꼴","cat":"폰트","local":"ready"},{"id":"jiwoochris/artex-global","lang":"Go","stars":1766,"forks":2038,"updated":"last week","desc":"ARTEX 한국어판 · AI 자율 침투 테스트 프레임워크(upstream: Autumn-27/ARTEX, AGPL-3.0)","ko":"AI 자율 침투 테스트 프레임워크 한국어판 (승인된 대상에만 사용)","cat":"보안","local":"key"},{"id":"TencentARC/WorldCrafter","lang":"Python","stars":512,"forks":18,"updated":"5 days ago","desc":"[Arxiv 2026] WorldCrafter: Consistent Video World Model with Implicit 3D-aware Memory","ko":"3D 인지 메모리를 가진 비디오 월드 모델","cat":"AI·LLM","local":"gpu"},{"id":"nilbuild/page-mascot","lang":"Python","stars":1162,"forks":123,"updated":"on Sep 15","desc":"A mascot that watches the cursor and blinks when you poke it","ko":"커서를 따라보고 찌르면 눈을 깜빡이는 웹페이지 마스코트","cat":"디자인·UI","local":"ready"},{"id":"AlexandrosGounis/pdfx","lang":"TypeScript","stars":1080,"forks":126,"updated":"on Sep 19","desc":"A free-floating 2D Canvas for processing multiple PDF files simultaneously","ko":"여러 PDF를 캔버스 위에서 동시에 다루는 도구","cat":"문서·HWP","local":"ready"},{"id":"protectai/llm-guard","lang":"Python","stars":3217,"forks":469,"updated":"on Jul 9","desc":"The Security Toolkit for LLM Interactions","ko":"LLM 입출력 보안 스캐너 (CPU 가능, 모델 다운로드 큼)","cat":"보안","local":"heavy"},{"id":"alchaincyf/huashu-art-motion","lang":"JavaScript","stars":4557,"forks":494,"updated":"4 days ago","desc":"艺术动画skill：35种艺术风格、9种解说语法，用代码让画动起来。","ko":"35가지 화풍으로 그림을 코드로 움직이는 아트 모션 스킬","cat":"에이전트 스킬","local":"skill","pick":true},{"id":"bangtutorial/bang-motion","lang":"HTML","stars":661,"forks":100,"updated":"on Sep 15","desc":"Agent skill for browser motion graphics — openers, promos, bumpers, kinetic typography. Single index.html output.","ko":"브라우저 모션그래픽(오프너·키네틱 타이포) 에이전트 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"addyosmani/agent-skills","lang":"JavaScript","stars":108745,"forks":11339,"updated":"last week","desc":"Production-grade engineering skills for AI coding agents.","ko":"AI 코딩 에이전트용 실전 엔지니어링 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"ythx-101/live-panel-skill","lang":"JavaScript","stars":779,"forks":99,"updated":"last week","desc":"Config-driven animated architecture diagrams: turn one JSON file into a terminal-style, always-running diagram.","ko":"JSON 하나로 움직이는 아키텍처 다이어그램 (mp4/웹)","cat":"에이전트 스킬","local":"skill"},{"id":"samyost1/3dicon","lang":"Python","stars":563,"forks":47,"updated":"last month","desc":"One prompt in, a looping animated 3D icon out — with real transparency. A Claude Code skill.","ko":"프롬프트로 투명 배경 루프 3D 아이콘 생성 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"feitangyuan/motion-web","lang":"HTML","stars":765,"forks":61,"updated":"on Sep 15","desc":"Build motion-first, high-touch creative websites on vanilla Three.js / Canvas 2D / WebGL / CSS.","ko":"Three.js·Canvas 모션 중심 웹사이트 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"Superfuture/design-review","lang":"HTML","stars":23,"forks":3,"updated":"on Aug 20","desc":"A senior design critique in your terminal — a Claude Code skill.","ko":"터미널에서 받는 시니어 디자인 리뷰 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"tester-army/e2e","lang":"TypeScript","stars":11450,"forks":588,"updated":"1 hour ago","desc":"Next generation e2e testing framework for web and mobile apps.","ko":"웹·모바일 차세대 E2E 테스트 프레임워크","cat":"개발 도구","local":"ready"},{"id":"JinHo-von-Choi/iron-laws","lang":"Python","stars":156,"forks":25,"updated":"last week","desc":"오철칙(Iron Laws) - AI가 만든 코드의 보안·구조·유지보수 문제를 짚어 주는 소스코드 점검 CLI","ko":"AI 생성 코드의 보안·구조 문제 점검 CLI","cat":"개발 도구","local":"ready"},{"id":"JohnHeibel/ClaudeAnimationBase","lang":"JavaScript","stars":1303,"forks":132,"updated":"last month","desc":"A starter kit for animating hand-painted cartoons with Claude: p5.js + p5.brush, the Clawd character, 31 acted emotions.","ko":"p5.js + p5.brush 손그림 카툰 애니메이션 스타터","cat":"영상·모션","local":"ready","pick":true},{"id":"PicoMQ/picomq","lang":"Rust","stars":373,"forks":11,"updated":"4 hours ago","desc":"Kafka and Durable streams on object storage","ko":"오브젝트 스토리지 위의 Kafka 호환 스트림","cat":"인프라","local":"heavy"},{"id":"dmoshehun-prog/learn-from-materials","lang":"Python","stars":1071,"forks":98,"updated":"16 hours ago","desc":"Turn PDFs, books and papers into interactive learning webpages","ko":"PDF·책·논문을 퀴즈·노트가 있는 학습 웹페이지로 변환","cat":"MCP·교육","local":"key"},{"id":"steveruizok/perfect-freehand","lang":"HTML","stars":5762,"forks":216,"updated":"on Apr 13","desc":"Draw perfect pressure-sensitive freehand lines.","ko":"필압 감지 손글씨 라인 라이브러리","cat":"디자인·UI","local":"ready"},{"id":"LibreSprite/LibreSprite","lang":"C++","stars":8610,"forks":597,"updated":"5 days ago","desc":"Animated sprite editor & pixel art tool -- Fork of the last GPLv2 commit of Aseprite","ko":"픽셀 아트·스프라이트 애니메이션 에디터 (C++ 빌드 큼)","cat":"3D·그래픽","local":"heavy"},{"id":"undefined-ui/second-brain-os","lang":"HTML","stars":1104,"forks":181,"updated":"last week","desc":"An AI second brain that maintains itself. Starter vault, agent skills and scripts for Claude Code and Obsidian.","ko":"Claude Code + Obsidian 자가 정리 세컨드 브레인","cat":"에이전트 스킬","local":"skill"},{"id":"genspark-ai/genoffice","lang":"TypeScript","stars":10096,"forks":1283,"updated":"1 hour ago","desc":"Free, open-source AI Office suite: Docs, Sheets, Slides, PDF, Markdown and HTML editors with a built-in AI agent.","ko":"문서·시트·슬라이드 오픈소스 오피스 (AI 기능은 키 필요)","cat":"문서·HWP","local":"ready"},{"id":"anteloc/ldraw-nova","lang":"Python","stars":440,"forks":36,"updated":"9 hours ago","desc":"Agent tooling for generative LEGO models building","ko":"에이전트로 LEGO 모델 생성","cat":"3D·그래픽","local":"key"},{"id":"dgreenheck/tidewater","lang":"JavaScript","stars":1326,"forks":301,"updated":"last month","desc":"Coastal town built with Opus 5.5","ko":"WebGPU 섬 낚시 게임 (성능 좋은 GPU 권장, Opus 5.5로 제작)","cat":"3D·그래픽","local":"heavy"},{"id":"edenfunf/reelmimic","lang":"JavaScript","stars":3669,"forks":373,"updated":"13 hours ago","desc":"Show it a video you love. Get a new video in the same style.","ko":"좋아하는 영상 스타일로 새 영상 만들기 (에이전트 크루)","cat":"영상·모션","local":"skill"},{"id":"aldegad/sprite-gen","lang":"Python","stars":2930,"forks":312,"updated":"42 minutes ago","desc":"Generate clean 2D game sprites & animation atlases. Codex/Claude skill.","ko":"2D 게임 스프라이트·아틀라스 생성 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"juliangarnier/anime","lang":"JavaScript","stars":73721,"forks":4985,"updated":"on Aug 22","desc":"JavaScript animation engine","ko":"JavaScript 애니메이션 엔진 anime.js","cat":"영상·모션","local":"ready","pick":true},{"id":"jeffhajewski/latticedb","lang":"Zig","stars":741,"forks":33,"updated":"5 days ago","desc":"Embedded single-file knowledge graph database with vector search and full-text search for AI/RAG apps","ko":"단일 파일 지식그래프 DB (벡터·전문 검색)","cat":"데이터","local":"ready"},{"id":"nobodywho-ooo/nobodywho","lang":"Rust","stars":1584,"forks":97,"updated":"yesterday","desc":"NobodyWho is an inference engine that lets you run LLMs locally and efficiently on any device.","ko":"어떤 기기에서도 로컬 LLM 추론 (0.6B 모델은 CPU로 충분)","cat":"AI·LLM","local":"ready"},{"id":"chrisryugj/kordoc","lang":"TypeScript","stars":2621,"forks":481,"updated":"18 hours ago","desc":"Convert Korean documents (HWP, HWPX, PDF, Office) to Markdown — CLI and MCP server with form filling and diff","ko":"HWP·HWPX·PDF·Office → Markdown 변환, 양식 채우기·신구대조","cat":"문서·HWP","local":"ready"},{"id":"Contrastive-LM/CLM","lang":"Python","stars":3079,"forks":266,"updated":"2 weeks ago","desc":"Contrastive Language Models (CLMs) are a new class of System One model trained with a contrastive learning objective.","ko":"대조학습 언어 모델 연구 코드","cat":"AI·LLM","local":"gpu"},{"id":"devdotfast/whiteboard","lang":"TypeScript","stars":3263,"forks":164,"updated":"1 hour ago","desc":"open-source canvas for thoughtful software design","ko":"소프트웨어 설계용 오픈소스 캔버스","cat":"디자인·UI","local":"ready"},{"id":"tt-a1i/archify","lang":"JavaScript","stars":86049,"forks":5862,"updated":"1 hour ago","desc":"Turn any idea, plan, or codebase into a beautiful interactive diagram. An agent skill.","ko":"아이디어·코드베이스를 인터랙티브 다이어그램으로 만드는 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"amandaghassaei/OrigamiSimulator","lang":"JavaScript","stars":1399,"forks":190,"updated":"last week","desc":"Realtime WebGL origami simulator","ko":"실시간 WebGL 종이접기 시뮬레이터 (정적 사이트)","cat":"3D·그래픽","local":"ready"},{"id":"rabbit-ear/rabbit-ear","lang":"JavaScript","stars":654,"forks":34,"updated":"10 hours ago","desc":"computational origami library","ko":"계산 종이접기 라이브러리 (크리스 패턴 생성)","cat":"3D·그래픽","local":"ready"},{"id":"oriedita/oriedita","lang":"Java","stars":130,"forks":29,"updated":"on Jun 13","desc":"Oriedita (fork of Orihime) is an origami crease pattern editor and folding simulator.","ko":"종이접기 크리스 패턴 에디터 (JDK 필요)","cat":"3D·그래픽","local":"ready"},{"id":"shadcn-labs/pdfcn","lang":"TypeScript","stars":2952,"forks":153,"updated":"5 days ago","desc":"Beautiful pdf components, built on Takumi and Forme. 100% Free, Zero config, one command setup.","ko":"React 컴포넌트로 PDF 만들기 (shadcn 스타일)","cat":"문서·HWP","local":"ready"},{"id":"Marker-Inc-Korea/AutoRAG","lang":"TypeScript","stars":5126,"forks":451,"updated":"1 hour ago","desc":"AutoRAG: Now your agent can find anything in your computer.","ko":"내 컴퓨터 파일을 찾아 주는 에이전트 RAG","cat":"AI·LLM","local":"key"},{"id":"px0-ai/px0","lang":"Go","stars":1888,"forks":264,"updated":"17 hours ago","desc":"px0 is an IDE built for reviewing AI-generated code, optimized for speed.","ko":"AI 생성 코드 리뷰용 브라우저 IDE (Git·GitHub 연동)","cat":"개발 도구","local":"ready"},{"id":"BuilderIO/agent-native","lang":"TypeScript","stars":7453,"forks":681,"updated":"7 minutes ago","desc":"A framework for building agentic apps","ko":"에이전트 앱 프레임워크","cat":"AI·에이전트","local":"key"},{"id":"vinnylarouge/jevlike","lang":"Python","stars":1354,"forks":121,"updated":"on Sep 17","desc":"","ko":"(설명 없음)","cat":"AI·에이전트","local":"unknown"},{"id":"songjiun10-collab/Senior-thinking-skills","lang":"Python","stars":87,"forks":12,"updated":"last week","desc":"","ko":"시니어 사고 방식 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"opensandbox-group/OpenSandbox","lang":"Python","stars":15994,"forks":1486,"updated":"4 hours ago","desc":"Secure, Fast, and Extensible Sandbox runtime for AI agents.","ko":"AI 에이전트용 샌드박스 런타임 (컨테이너 기반)","cat":"인프라","local":"heavy"},{"id":"SeoNaRu/nulnul-harness","lang":"Python","stars":34,"forks":3,"updated":"on Sep 10","desc":"A minimal, evidence-gated harness for Codex and Claude Code.","ko":"증거 기반 최소 하네스","cat":"에이전트 스킬","local":"skill"},{"id":"golbin/hop","lang":"TypeScript","stars":1928,"forks":308,"updated":"2 weeks ago","desc":"","ko":"(설명 없음)","cat":"개발 도구","local":"unknown"},{"id":"code-yeongyu/oh-my-openagent","lang":"TypeScript","stars":70214,"forks":5775,"updated":"10 minutes ago","desc":"OmO: Just type \"mass ulw\" keyword with your prompt.","ko":"오픈 에이전트 오케스트레이션 플러그인","cat":"에이전트 스킬","local":"skill"},{"id":"Nutlope/hallmark","lang":"CSS","stars":30418,"forks":1569,"updated":"on Aug 7","desc":"Anti-AI-slop design skill for Claude Code, Cursor, and Codex.","ko":"AI 티 나는 디자인을 막는 스킬","cat":"에이전트 스킬","local":"skill"},{"id":"firecrawl/anydoc","lang":"Rust","stars":22982,"forks":1485,"updated":"8 hours ago","desc":"Convert Word, PowerPoint, Excel, OpenDocument, RTF, EPUB, CSV, and PDF to clean Markdown.","ko":"오피스·PDF·EPUB → Markdown 변환 (Rust, Node/Python 바인딩)","cat":"문서·HWP","local":"ready"},{"id":"Center-for-AI-Innovation/ai-teaching-assistant-uiuc","lang":"Python","stars":76,"forks":6,"updated":"on Apr 17, 2023","desc":"The UX & driver code for the multi-model TA_Chatbot","ko":"UIUC AI 조교 챗봇 (오래된 프로젝트)","cat":"MCP·교육","local":"key"},{"id":"mym0404/book-studio-template","lang":"TypeScript","stars":30,"forks":0,"updated":"on Aug 23","desc":"Your Private E-book reader (Sync with all devices & Convert your pdf, materials to book with AI Agents)","ko":"개인 전자책 리더 템플릿","cat":"문서·HWP","local":"unknown"},{"id":"lobehub/lobehub","lang":"TypeScript","stars":83355,"forks":16003,"updated":"now","desc":"LobeHub is your Chief Agent Operator, organizing your agents into 7×24 operations.","ko":"에이전트 팀 운영 플랫폼 (LLM 키 필요)","cat":"AI·에이전트","local":"key"},{"id":"yc-software/qm","lang":"TypeScript","stars":15455,"forks":1914,"updated":"20 minutes ago","desc":"Multiplayer agent harness for work.","ko":"멀티플레이어 업무용 에이전트 하네스","cat":"AI·에이전트","local":"key"},{"id":"drumih/turbo-fieldfare","lang":"Swift","stars":6947,"forks":468,"updated":"5 days ago","desc":"Gemma 4 26B-A4B inference in ~2 GB of RAM on any M-series MacBook","ko":"M 시리즈 맥북 2GB RAM으로 Gemma 4 추론","cat":"AI·LLM","local":"apple"},{"id":"AlmanacCode/codealmanac","lang":"TypeScript","stars":997,"forks":78,"updated":"on Jul 25","desc":"A codebase wiki for AI coding agents.","ko":"AI 에이전트용 코드베이스 위키","cat":"에이전트 스킬","local":"skill"},{"id":"Graphify-Labs/graphify","lang":"Python","stars":129423,"forks":12479,"updated":"4 days ago","desc":"Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph.","ko":"코드베이스를 질의 가능한 지식그래프로 (로컬 AST 파싱)","cat":"개발 도구","local":"ready"},{"id":"kojiishi/monitor-input-rs","lang":"Rust","stars":55,"forks":3,"updated":"on Sep 18","desc":"Command line tool to change input sources of display monitors with DDC/CI.","ko":"DDC/CI로 모니터 입력 전환 CLI (지원 모니터 필요)","cat":"개발 도구","local":"ready"},{"id":"edwardkim/rhwp","lang":"Rust","stars":3972,"forks":773,"updated":"2 hours ago","desc":"아래한글 hwp viewer and editor by rust and wasm","ko":"Rust + WASM HWP 뷰어·에디터, SVG 내보내기","cat":"문서·HWP","local":"ready"},{"id":"Yeachan-Heo/oh-my-claudecode","lang":"TypeScript","stars":40100,"forks":3594,"updated":"1 hour ago","desc":"Teams-first Multi-agent orchestration for Claude Code","ko":"Claude Code 멀티 에이전트 오케스트레이션","cat":"에이전트 스킬","local":"skill"}],"picks":["juliangarnier/anime","Mesh2Motion/mesh2motion-app","JohnHeibel/ClaudeAnimationBase","storytold/artcraft","wheresryan22/anatomy","alchaincyf/huashu-art-motion"],"labels":{"ready":"로컬OK","heavy":"무거움","gpu":"GPU","apple":"Apple","key":"API키","skill":"스킬","unknown":"확인필요"}};
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const fmt = (n) => n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k' : String(n);
+const picks = new Set(DATA.picks);
+const state = { q: '', cat: '', sort: 'stars', levels: new Set() };
+const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+
+const cats = [...new Set(DATA.repos.map((r) => r.cat))].sort((a, b) => a.localeCompare(b, 'ko'));
+$('#cat').insertAdjacentHTML('beforeend', cats.map((c) => `<option>${esc(c)}</option>`).join(''));
+const levelCounts = DATA.repos.reduce((m, r) => (m[r.local] = (m[r.local] || 0) + 1, m), {});
+$('#levels').innerHTML = Object.keys(DATA.meta.levels).map((k) => `<button type="button" class="chip" aria-pressed="false" data-level="${k}">${esc(DATA.labels[k])} ${levelCounts[k] || 0}</button>`).join('');
+$('#legend').innerHTML = Object.entries(DATA.meta.levels).map(([k, v]) => `<li><span class="lv lv-${k}">${esc(DATA.labels[k])}</span><span>${esc(v)}</span></li>`).join('');
+
+function shortName(id) {
+  const name = id.split('/')[1];
+  return DATA.repos.filter((r) => r.id.split('/')[1].toLowerCase() === name.toLowerCase()).length === 1 ? name : id;
+}
+function render() {
+  const terms = state.q.toLowerCase().split(/\s+/).filter(Boolean);
+  let list = DATA.repos.filter((r) => {
+    if (state.cat && r.cat !== state.cat) return false;
+    if (state.levels.size && !state.levels.has(r.local)) return false;
+    const hay = `${r.id} ${r.ko} ${r.desc} ${r.cat} ${r.lang}`.toLowerCase();
+    return terms.every((t) => hay.includes(t));
+  });
+  const key = { stars: (r) => -r.stars, forks: (r) => -r.forks, name: (r) => r.id.toLowerCase() }[state.sort];
+  list.sort((a, b) => (key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : 0));
+  $('#count').textContent = `${DATA.repos.length}개 중 ${list.length}개`;
+  $('#rows').innerHTML = list.map((r) => `<tr>
+    <td class="repo">${picks.has(r.id) ? '<span class="pk" title="추천작">◆</span>' : ''}<a href="https://github.com/${esc(r.id)}" target="_blank" rel="noopener">${esc(r.id)}</a><br><span class="cmdline">repolab show ${esc(shortName(r.id))}</span></td>
+    <td>${esc(r.ko)}${r.desc && r.desc !== r.ko ? `<span class="en">${esc(r.desc)}</span>` : ''}</td>
+    <td class="lang">${esc(r.lang || '-')}</td>
+    <td class="num">★ ${fmt(r.stars)}</td>
+    <td><span class="lv lv-${r.local}">${esc(DATA.labels[r.local])}</span></td>
+    <td class="muted">${esc(r.cat)}</td>
+  </tr>`).join('') || '<tr><td colspan="6" class="muted">조건에 맞는 레포가 없다.</td></tr>';
+}
+$('#q').addEventListener('input', (e) => { state.q = e.target.value; render(); });
+$('#cat').addEventListener('change', (e) => { state.cat = e.target.value; render(); });
+$('#sort').addEventListener('change', (e) => { state.sort = e.target.value; render(); });
+$('#levels').addEventListener('click', (e) => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  const k = b.dataset.level;
+  state.levels.has(k) ? state.levels.delete(k) : state.levels.add(k);
+  b.setAttribute('aria-pressed', state.levels.has(k));
+  render();
+});
+render();
+
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('.copy'); if (!b) return;
+  try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = '복사됨'; }
+  catch { b.textContent = '직접 복사'; }
+  setTimeout(() => (b.textContent = '복사'), 1500);
+});
+
+const root = document.documentElement;
+const saved = store.get('repolab-theme');
+if (saved) root.dataset.theme = saved;
+$('#theme').addEventListener('click', () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  store.set('repolab-theme', root.dataset.theme);
+});
+</script>
+</body>
+</html>

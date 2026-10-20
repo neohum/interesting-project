@@ -1,0 +1,254 @@
+{
+  "picks": [
+    {
+      "id": "juliangarnier/anime",
+      "title": "anime.js",
+      "tagline": "타임라인으로 짜는 웹 애니메이션 엔진",
+      "why": "CSS·SVG·DOM 속성·JS 객체를 같은 API로 움직인다. 예제 폴더가 풍부해서 클론 후 바로 수십 개 데모를 브라우저로 볼 수 있다.",
+      "outputs": [
+        "examples/ 폴더의 인터랙티브 데모 모음",
+        "직접 만든 키네틱 타이포그래피·SVG 라인 드로잉",
+        "스크롤 연동 애니메이션 페이지"
+      ],
+      "minis": [
+        {
+          "name": "한글 키네틱 인트로",
+          "desc": "자모를 span으로 쪼개 stagger로 튀어 오르게 하는 5초짜리 오프닝. 화면 녹화하면 영상 인트로가 된다."
+        },
+        {
+          "name": "깃 커밋 타임라인 애니메이션",
+          "desc": "git log를 JSON으로 뽑아 커밋이 하나씩 쌓이는 SVG 그래프로 재생한다."
+        }
+      ],
+      "requires": [
+        "git",
+        "node"
+      ],
+      "size": "소",
+      "recipe": {
+        "steps": [
+          "npm install",
+          "npm run open:examples"
+        ],
+        "note": "browser-sync가 examples 폴더를 띄운다."
+      },
+      "art": "anime.svg"
+    },
+    {
+      "id": "Mesh2Motion/mesh2motion-app",
+      "title": "Mesh2Motion",
+      "tagline": "3D 모델에 뼈대를 심고 애니메이션을 입힌다",
+      "why": "Mixamo처럼 리깅·모션을 자동으로 붙여 주는 브라우저 앱이다. 클라우드 업로드 없이 내 컴퓨터에서 처리된다.",
+      "outputs": [
+        "자동 리깅된 캐릭터",
+        "걷기·달리기 같은 애니메이션 프리셋",
+        "GLB로 내보낸 애니메이션 모델"
+      ],
+      "minis": [
+        {
+          "name": "웹 게임 캐릭터",
+          "desc": "내보낸 GLB를 Three.js 씬에 불러와 방향키로 걷게 한다."
+        },
+        {
+          "name": "회사 마스코트 GIF",
+          "desc": "간단한 마스코트 모델에 손 흔들기 모션을 입혀 화면 녹화로 GIF·이모지를 만든다."
+        }
+      ],
+      "requires": [
+        "git",
+        "node"
+      ],
+      "size": "소",
+      "recipe": {
+        "steps": [
+          "npm install",
+          "npm run dev"
+        ],
+        "note": "Vite가 알려 주는 localhost 주소를 연다."
+      },
+      "art": "mesh2motion.svg"
+    },
+    {
+      "id": "JohnHeibel/ClaudeAnimationBase",
+      "title": "Claude Animation Base",
+      "tagline": "손그림 카툰을 코드로 그리고 MP4로 뽑는다",
+      "why": "p5.js와 p5.brush로 붓질·수채 느낌의 카툰을 그리는 스타터 키트다. 캐릭터 Clawd와 감정 31가지, 장면 타임라인, 헤드리스 렌더러가 들어 있다. 클론하고 npm install 한 번이면 데모 영상이 나오고, 코딩 에이전트에게 ANIMATION_GUIDE.md를 읽힌 뒤 장면을 주문할 수도 있다.",
+      "outputs": [
+        "out/sheet.jpg — 1초 간격 6컷 콘티 시트",
+        "out/video.mp4 — 11초짜리 데모 애니메이션",
+        "studio.html — 브라우저에서 프레임을 넘겨 보는 스튜디오"
+      ],
+      "minis": [
+        {
+          "name": "15초 생일 카드 영상",
+          "desc": "Clawd가 케이크 촛불을 불어 끄는 장면을 src/scenes/에 짜고 render.mjs로 MP4를 뽑아 메신저로 보낸다."
+        },
+        {
+          "name": "우리 팀 마스코트 감정 시트",
+          "desc": "캐릭터 모양만 바꿔 감정 31가지를 다시 그리고 ?loop=emotions 화면을 녹화해 이모지 GIF 세트를 만든다."
+        }
+      ],
+      "requires": [
+        "git",
+        "node",
+        "Google Chrome",
+        "ffmpeg"
+      ],
+      "size": "소 (npm 패키지 46개)",
+      "recipe": {
+        "steps": [
+          "npm install",
+          "npm run sheet",
+          "node render.mjs --clip --out=out/video.mp4"
+        ],
+        "note": "Chrome이 표준 위치에 없으면 --chrome=<경로> 또는 CHROME_PATH. 내장 GPU에서는 수채 채색 때문에 프레임당 수 초가 걸릴 수 있다. GPU가 아예 없는 Linux는 --soft-gl."
+      },
+      "art": "claude-animation.svg"
+    },
+    {
+      "id": "storytold/artcraft",
+      "title": "ArtCraft",
+      "tagline": "장면을 먼저 짜고 생성하는 AI 이미지·영상 IDE",
+      "why": "2D 레이어 합성, 3D 장면 배치, 캐릭터 포즈, 카메라 위치를 먼저 잡은 뒤 이미지·영상 모델로 생성하는 데스크톱 앱(Rust·Tauri)이다. 생성은 클라우드 모델이 하므로 내 컴퓨터에 GPU가 필요 없다. 대신 생성에는 계정이 필요하고, 소스 빌드는 무겁다. 빌드 없이 쓰려면 공식 사이트의 Windows·macOS 설치본을 받는다.",
+      "outputs": [
+        "직접 빌드한 ArtCraft 데스크톱 앱 (개발 모드)",
+        "3D 장면·포즈·카메라를 고정해 뽑은 일관된 컷",
+        "이미지 → 영상, 이미지 → 3D 메시 결과물"
+      ],
+      "minis": [
+        {
+          "name": "4컷 스토리보드",
+          "desc": "같은 방(Image to Location)에 인물을 세우고 카메라만 옮겨 4컷을 뽑아, 짧은 영상 콘티로 쓴다."
+        },
+        {
+          "name": "상품 소품 컷",
+          "desc": "상품 사진의 배경을 지우고 3D 장면에 올려 각도·조명이 다른 홍보 이미지를 여러 장 만든다."
+        }
+      ],
+      "requires": [
+        "git",
+        "node 20+",
+        "cargo (Rust)",
+        "tauri-cli 2"
+      ],
+      "size": "대 (Rust 빌드 수 GB, 첫 빌드 수십 분)",
+      "recipe": {
+        "steps": [
+          "cargo install tauri-cli --version ^2 --locked",
+          "./script/artcraft/unix_dev.sh"
+        ],
+        "win": [],
+        "note": "Vite 개발 서버와 Tauri 앱을 한 터미널에서 함께 띄운다(Ctrl+C로 둘 다 종료). Windows는 터미널 두 개에서 script\\artcraft\\windows_frontend_dev.ps1, windows_rust_dev.ps1을 각각 실행한다. 이미지·영상 생성은 로그인한 계정의 클라우드 모델로 돈다."
+      },
+      "art": "artcraft.svg"
+    },
+    {
+      "id": "wheresryan22/anatomy",
+      "title": "Anatomy",
+      "tagline": "개념을 움직이는 아이소메트릭 기계 그림으로 설명한다",
+      "why": "\"캐시 키\"를 핀 텀블러 자물쇠로 바꾸듯, 기술 개념을 실제로 작동하는 물건으로 바꿔 수십 개 부품의 SVG·WebGL 그림으로 그려 주는 에이전트 스킬이다. 의존성이 없고 API 키도 필요 없다. 완성된 예제 페이지가 저장소에 들어 있어 클론만 해도 바로 열어 볼 수 있다.",
+      "outputs": [
+        "examples/의 인터랙티브 그림 9종 (로켓 엔진, 리플 탱크, 다이얼 게이지 …)",
+        "마우스를 올리면 분해·작동하는 단일 HTML 그림",
+        "/anatomy 명령으로 직접 주문한 내 개념도"
+      ],
+      "minis": [
+        {
+          "name": "우리 서비스 아키텍처 기계도",
+          "desc": "\"요청 큐와 워커\"를 컨베이어 벨트와 작업대로 그려 달라고 주문해 사내 위키 첫 화면에 붙인다."
+        },
+        {
+          "name": "수업용 원리 그림",
+          "desc": "토큰 버킷, 해시 테이블처럼 설명하기 어려운 개념을 손으로 돌려 보는 그림으로 만들어 발표 자료에 넣는다."
+        }
+      ],
+      "requires": [
+        "git",
+        "node 20.10+ (스킬 사용 시)",
+        "Claude Code·Codex 등 코딩 에이전트"
+      ],
+      "size": "소 (의존성 0)",
+      "recipe": {
+        "steps": [],
+        "serve": "examples",
+        "note": "예제 갤러리를 내장 정적 서버로 띄운다. 직접 그리려면 npx skills add wheresryan22/anatomy -g 로 설치하고 Claude Code에서 /anatomy explain how a token bucket rate limiter works, interactive"
+      },
+      "art": "anatomy.svg"
+    },
+    {
+      "id": "alchaincyf/huashu-art-motion",
+      "title": "huashu-art-motion",
+      "tagline": "35가지 미술 화풍으로 움직이는 그림을 코드로 렌더링한다",
+      "why": "동굴 벽화부터 고흐, 우키요에, 8비트까지 화풍마다 붓질·색·전환을 코드로 옮긴 레시피와 장면 코드가 들어 있는 애니메이션 스킬이다. 브라우저 캔버스로 그린 뒤 Playwright와 ffmpeg로 프레임을 뽑아 MP4를 만든다. 문서는 중국어지만 렌더러는 명령 한 줄로 돈다.",
+      "outputs": [
+        "화풍별 정지 프레임 (예: 고흐 후기인상파 장면 PNG)",
+        "spec JSON 한 장으로 만드는 해설 애니메이션 MP4 (예: 금융 차트)",
+        "배경음까지 코드로 합성한 짧은 아트 필름"
+      ],
+      "minis": [
+        {
+          "name": "우리 동네 미술사 투어",
+          "desc": "같은 골목 구도를 수묵화·인상파·픽셀아트 세 화풍으로 렌더링해 전환이 이어지는 30초 영상을 만든다."
+        },
+        {
+          "name": "월간 지표 해설 영상",
+          "desc": "예제 spec의 숫자와 라벨만 바꿔 이번 달 매출 그래프가 그려지는 해설 클립을 뽑는다."
+        }
+      ],
+      "requires": [
+        "git",
+        "uv (Python)",
+        "ffmpeg",
+        "Playwright Chromium"
+      ],
+      "size": "중 (Chromium 약 100MB)",
+      "recipe": {
+        "steps": [
+          "uv run --with playwright playwright install chromium",
+          "uv run --with playwright python scripts/engine/render.py --solo 09_postimp --stills 0.3 --out stills",
+          "uv run --with playwright python scripts/engine/render.py --spec scripts/engine/examples/t3_finance_chart.json --out finance-chart.mp4"
+        ],
+        "note": "stills/ 폴더에 고흐 장면 한 프레임, finance-chart.mp4에 해설 영상이 나온다. 에이전트 스킬로 쓰려면 npx skills add alchaincyf/huashu-art-motion"
+      },
+      "art": "huashu.svg"
+    }
+  ],
+  "mentions": [
+    {
+      "id": "dgreenheck/tidewater",
+      "note": "WebGPU 섬 낚시 게임. 3D 품질은 최고지만 README가 성능 좋은 GPU와 WebGPU 브라우저를 요구한다."
+    },
+    {
+      "id": "edwardkim/rhwp",
+      "note": "HWP를 SVG로 내보내는 Rust CLI와 웹 에디터. WASM 빌드는 Docker를 쓴다."
+    },
+    {
+      "id": "firecrawl/anydoc",
+      "note": "Word·PPT·Excel·EPUB → Markdown. Node/Python 바인딩이 있다."
+    },
+    {
+      "id": "nilbuild/page-mascot",
+      "note": "커서를 쳐다보는 마스코트를 내 블로그에 붙인다."
+    },
+    {
+      "id": "jeffhajewski/latticedb",
+      "note": "단일 파일 지식그래프 DB. Zig 툴체인으로 빌드한다."
+    },
+    {
+      "id": "naver/d2-coding-font",
+      "note": "설치만 하면 되는 개발용 한글 글꼴."
+    },
+    {
+      "id": "LibreSprite/LibreSprite",
+      "note": "픽셀 아트 에디터. 소스 빌드는 무겁고 CMake가 필요하다."
+    },
+    {
+      "id": "coollabsio/coolify",
+      "note": "남는 PC나 VPS에 개인 Vercel을 차린다. Docker가 필요하다."
+    },
+    {
+      "id": "vincentsch/explainroo",
+      "note": "로컬 TTS·Whisper로 내레이션 영상 생성. CPU로 되지만 느리고 모델이 크다."
+    }
+  ]
+}

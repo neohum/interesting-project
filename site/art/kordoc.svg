@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+  <rect width="640" height="400" fill="#f3f6fb"/>
+  <g transform="translate(36 48)">
+    <path d="M0 10a10 10 0 0 1 10-10h120l40 40v250a10 10 0 0 1-10 10H10a10 10 0 0 1-10-10z" fill="#fff" stroke="#c5d0e0" stroke-width="1.5"/>
+    <path d="M130 0v30a10 10 0 0 0 10 10h30" fill="#e6edf7" stroke="#c5d0e0" stroke-width="1.5"/>
+    <rect x="18" y="20" width="60" height="22" rx="5" fill="#1f6feb"/><text x="48" y="36" font-size="12" fill="#fff" text-anchor="middle" font-weight="700">HWPX</text>
+    <text x="85" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2937">2026년 운영 계획</text>
+    <g fill="#d5dde9"><rect x="18" y="92" width="134" height="6" rx="3"/><rect x="18" y="106" width="120" height="6" rx="3"/><rect x="18" y="120" width="128" height="6" rx="3"/></g>
+    <g fill="none" stroke="#b8c4d6"><rect x="18" y="140" width="134" height="66"/><path d="M18 162h134M18 184h134M70 140v66"/></g>
+    <g fill="#d5dde9"><rect x="18" y="222" width="134" height="6" rx="3"/><rect x="18" y="236" width="96" height="6" rx="3"/></g>
+    <g transform="translate(26 260)"><path d="M0 0h24v30H0z" fill="#fff" stroke="#c5d0e0"/><text x="12" y="20" font-size="9" text-anchor="middle" fill="#e5484d" font-weight="700">PDF</text></g>
+    <g transform="translate(58 260)"><path d="M0 0h24v30H0z" fill="#fff" stroke="#c5d0e0"/><text x="12" y="20" font-size="9" text-anchor="middle" fill="#2b7a3d" font-weight="700">XLSX</text></g>
+    <g transform="translate(90 260)"><path d="M0 0h24v30H0z" fill="#fff" stroke="#c5d0e0"/><text x="12" y="20" font-size="9" text-anchor="middle" fill="#1f6feb" font-weight="700">HWP</text></g>
+  </g>
+  <g transform="translate(226 170)">
+    <rect x="0" y="-22" width="120" height="44" rx="22" fill="#111827"/>
+    <text x="60" y="5" font-size="13" fill="#fff" text-anchor="middle" font-family="ui-monospace,Menlo,Consolas,monospace">npx kordoc</text>
+    <path d="M124 0h22m-8-7l9 7-9 7" stroke="#111827" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(384 48)">
+    <rect width="224" height="300" rx="10" fill="#0d1117"/>
+    <g font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12.5">
+      <text x="16" y="30" fill="#8b949e">운영계획.md</text>
+      <text x="16" y="62" fill="#ff7b72"># <tspan fill="#e6edf3" font-weight="700">2026년 운영 계획</tspan></text>
+      <text x="16" y="90" fill="#e6edf3">본 계획은 …</text>
+      <text x="16" y="118" fill="#ff7b72">## <tspan fill="#e6edf3">1. 추진 일정</tspan></text>
+      <text x="16" y="146" fill="#8b949e">| 구분 | 일정 |</text>
+      <text x="16" y="166" fill="#8b949e">|------|------|</text>
+      <text x="16" y="186" fill="#e6edf3">| 착수 | 3월 |</text>
+      <text x="16" y="206" fill="#e6edf3">| 완료 | 11월 |</text>
+      <text x="16" y="238" fill="#ff7b72">- <tspan fill="#e6edf3">예산 <tspan fill="#79c0ff">**1.2억**</tspan></tspan></text>
+      <text x="16" y="270" fill="#7ee787">✓ 표·제목 구조 보존</text>
+    </g>
+  </g>
+</svg>

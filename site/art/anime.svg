@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+  <defs><linearGradient id="ag" x1="0" x2="1"><stop offset="0" stop-color="#ff4b4b"/><stop offset="1" stop-color="#ff9f43"/></linearGradient></defs>
+  <rect width="640" height="400" fill="#16151a"/>
+  <g font-size="76" font-weight="800" fill="url(#ag)">
+    <text x="70" y="178">안</text>
+    <text x="170" y="150" opacity=".95">녕</text>
+    <text x="270" y="126" opacity=".9">하</text>
+    <text x="370" y="152" opacity=".85">세</text>
+    <text x="470" y="186" opacity=".8">요</text>
+  </g>
+  <g fill="#ff6b4b" opacity=".18" font-size="76" font-weight="800"><text x="170" y="186">녕</text><text x="270" y="176">하</text><text x="270" y="156" opacity=".6">하</text><text x="370" y="190">세</text></g>
+  <g stroke="#ff9f43" stroke-width="2" stroke-linecap="round" opacity=".55"><path d="M198 196v18M298 172v34M398 198v16"/></g>
+  <path d="M60 236c80-40 140 30 220 0s150-40 300 6" fill="none" stroke="#5ee7df" stroke-width="3" stroke-dasharray="460" stroke-dashoffset="120" stroke-linecap="round"/>
+  <circle cx="470" cy="226" r="7" fill="#5ee7df"/>
+  <g font-size="12" fill="#8e8a99">
+    <rect x="40" y="276" width="560" height="104" rx="12" fill="#211f27"/>
+    <text x="58" y="302">timeline</text><text x="560" y="302" text-anchor="end">0 ─ 2400ms</text>
+    <line x1="58" y1="312" x2="582" y2="312" stroke="#34313d"/>
+    <text x="58" y="334">letters</text>
+    <rect x="130" y="324" width="70" height="14" rx="7" fill="#ff4b4b"/><rect x="160" y="324" width="70" height="14" rx="7" fill="#ff6247" opacity=".9"/><rect x="190" y="324" width="70" height="14" rx="7" fill="#ff7a45" opacity=".85"/><rect x="220" y="324" width="70" height="14" rx="7" fill="#ff8c44" opacity=".8"/><rect x="250" y="324" width="70" height="14" rx="7" fill="#ff9f43" opacity=".75"/>
+    <text x="58" y="362">path</text><rect x="300" y="352" width="240" height="14" rx="7" fill="#5ee7df"/>
+    <line x1="402" y1="316" x2="402" y2="372" stroke="#fff" stroke-width="1.5"/><path d="M396 314h12l-6 8z" fill="#fff"/>
+  </g>
+  <text x="40" y="44" font-size="13" fill="#8e8a99" font-family="ui-monospace,Menlo,Consolas,monospace">stagger(80, { from: 'first' })</text>
+</svg>

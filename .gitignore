@@ -13,7 +13,10 @@ node_modules/
 /.harness/
 /.harness-*.json
 /.vscode/
-/.github/
+/.github/*
+!/.github/workflows/
+/.github/workflows/*
+!/.github/workflows/pages.yml
 /.mcp.json
 /.dockerignore
 /.editorconfig

@@ -8,7 +8,7 @@
   "scripts": {
     "repolab": "node bin/repolab.mjs",
     "html": "node bin/repolab.mjs html",
-    "test": "node --test tests/"
+    "test": "node --test"
   },
   "license": "MIT"
 }

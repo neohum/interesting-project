@@ -134,7 +134,7 @@ footer { padding: 48px 0 64px; color: var(--ink-3); font-size: 13px; }
 </head>
 <body>
 <nav class="toc" aria-label="목차"><div class="wrap">
-  <a href="#picks">추천 <!--NPICKS-->선</a><a href="#mentions">더 볼 것</a><a href="#all">전체 목록</a><a href="#cli">CLI 사용법</a>
+  <a href="#cli">CLI 사용법</a><a href="#picks">추천 <!--NPICKS-->선</a><a href="#mentions">더 볼 것</a><a href="#all">전체 목록</a>
   <button class="theme" type="button" id="theme">테마</button>
 </div></nav>
 
@@ -151,40 +151,6 @@ footer { padding: 48px 0 64px; color: var(--ink-3); font-size: 13px; }
 </div></header>
 
 <main>
-<section id="picks"><div class="wrap">
-  <h2>직접 해볼 만한 <!--NPICKS-->선</h2>
-  <p class="section-sub">모두 내 컴퓨터에 GPU가 없어도 된다. ArtCraft는 생성을 클라우드 모델에 맡기고, Anatomy와 huashu-art-motion은 코딩 에이전트에 설치해 쓰는 스킬이다. 카드의 그림은 각 프로젝트를 돌리면 얻는 결과물을 그린 예시이고, 맨 아래 명령 한 줄이면 클론부터 실행까지 이어진다.</p>
-  <div class="picks">
-<!--PICKS-->
-  </div>
-  <p class="art-note">그림은 실제 스크린샷이 아니라 결과물 형태를 보여 주는 일러스트다. 그림 속 수치(속도·메모리 등)도 예시다.</p>
-</div></section>
-
-<section id="mentions"><div class="wrap">
-  <h2>그 밖에 볼 만한 것</h2>
-  <p class="section-sub">준비가 조금 더 들거나 쓰임새가 좁지만 손대 볼 가치가 있는 레포.</p>
-  <ul class="mentions"><!--MENTIONS--></ul>
-</div></section>
-
-<section id="all"><div class="wrap">
-  <h2>전체 목록</h2>
-  <p class="section-sub">로컬 실행 등급은 설명과 매니페스트를 보고 매긴 판단이다. 별·포크 수는 붙여 넣은 목록의 스냅샷이다.</p>
-  <div class="filters">
-    <label class="sr" for="q">검색</label>
-    <input id="q" type="search" placeholder="이름·설명 검색 (예: hwp, rust, 애니메이션)" autocomplete="off">
-    <label class="sr" for="cat">카테고리</label>
-    <select id="cat"><option value="">모든 카테고리</option></select>
-    <label class="sr" for="sort">정렬</label>
-    <select id="sort"><option value="stars">별 많은 순</option><option value="forks">포크 많은 순</option><option value="name">이름순</option></select>
-  </div>
-  <div class="chips" id="levels" role="group" aria-label="로컬 실행 등급"></div>
-  <p class="count" id="count" aria-live="polite"></p>
-  <div class="table-wrap"><table>
-    <thead><tr><th>레포</th><th>설명</th><th>언어</th><th style="text-align:right">★</th><th>로컬</th><th>카테고리</th></tr></thead>
-    <tbody id="rows"></tbody>
-  </table></div>
-</div></section>
-
 <section id="cli"><div class="wrap">
   <h2>CLI로 검색하고 바로 돌리기</h2>
   <p class="section-sub"><code>repolab</code>은 이 목록을 터미널에서 검색하고, 얕은 클론과 설치·실행까지 이어 주는 도구다. 의존성 없이 Node.js 18 이상과 git만 있으면 macOS·Windows·Linux에서 똑같이 돈다.</p>
@@ -224,6 +190,41 @@ repolab check --all               <span class="c"># 레포 존재 확인</span><
     </div>
   </div>
 </div></section>
+
+<section id="picks"><div class="wrap">
+  <h2>직접 해볼 만한 <!--NPICKS-->선</h2>
+  <p class="section-sub">모두 내 컴퓨터에 GPU가 없어도 된다. ArtCraft는 생성을 클라우드 모델에 맡기고, Anatomy와 huashu-art-motion은 코딩 에이전트에 설치해 쓰는 스킬이다. 카드의 그림은 각 프로젝트를 돌리면 얻는 결과물을 그린 예시이고, 맨 아래 명령 한 줄이면 클론부터 실행까지 이어진다.</p>
+  <div class="picks">
+<!--PICKS-->
+  </div>
+  <p class="art-note">그림은 실제 스크린샷이 아니라 결과물 형태를 보여 주는 일러스트다. 그림 속 수치(속도·메모리 등)도 예시다.</p>
+</div></section>
+
+<section id="mentions"><div class="wrap">
+  <h2>그 밖에 볼 만한 것</h2>
+  <p class="section-sub">준비가 조금 더 들거나 쓰임새가 좁지만 손대 볼 가치가 있는 레포.</p>
+  <ul class="mentions"><!--MENTIONS--></ul>
+</div></section>
+
+<section id="all"><div class="wrap">
+  <h2>전체 목록</h2>
+  <p class="section-sub">로컬 실행 등급은 설명과 매니페스트를 보고 매긴 판단이다. 별·포크 수는 붙여 넣은 목록의 스냅샷이다.</p>
+  <div class="filters">
+    <label class="sr" for="q">검색</label>
+    <input id="q" type="search" placeholder="이름·설명 검색 (예: hwp, rust, 애니메이션)" autocomplete="off">
+    <label class="sr" for="cat">카테고리</label>
+    <select id="cat"><option value="">모든 카테고리</option></select>
+    <label class="sr" for="sort">정렬</label>
+    <select id="sort"><option value="stars">별 많은 순</option><option value="forks">포크 많은 순</option><option value="name">이름순</option></select>
+  </div>
+  <div class="chips" id="levels" role="group" aria-label="로컬 실행 등급"></div>
+  <p class="count" id="count" aria-live="polite"></p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>레포</th><th>설명</th><th>언어</th><th style="text-align:right">★</th><th>로컬</th><th>카테고리</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+</div></section>
+
 </main>
 
 <footer><div class="wrap">

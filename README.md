@@ -10,6 +10,8 @@ GitHub 트렌딩 레포 90개를 실행 조건별로 정리하고, 그중 애니
 ## 빠른 시작
 
 ```bash
+git clone https://github.com/neohum/interesting-project.git
+cd interesting-project
 node bin/repolab.mjs help
 npm link                       # 이후 어디서나 repolab
 repolab doctor                 # 설치된 도구 점검

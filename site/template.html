@@ -126,6 +126,10 @@ td .cmdline { display: inline-block; margin-top: 4px; font-family: var(--mono); 
 .panel h3 { margin: 0 0 10px; font-size: 17px; }
 pre { margin: 0; background: var(--code-bg); color: var(--code-ink); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font: 13px/1.7 var(--mono); }
 pre .c { color: #a8a29e; }
+.ln { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; min-height: 1.7em; }
+.ln > span { white-space: pre; }
+.ln .copy { flex: none; padding: 0 8px; font-size: 11px; line-height: 20px; opacity: .55; }
+.ln:hover .copy, .ln .copy:focus-visible { opacity: 1; }
 .legend { display: grid; gap: 6px; font-size: 14px; margin: 0; padding: 0; list-style: none; }
 .legend li { display: flex; gap: 10px; align-items: baseline; }
 footer { padding: 48px 0 64px; color: var(--ink-3); font-size: 13px; }
@@ -281,6 +285,27 @@ $('#levels').addEventListener('click', (e) => {
   render();
 });
 render();
+
+// CLI 사용법의 명령 줄마다 복사 버튼을 붙인다 (주석·빈 줄 제외)
+document.querySelectorAll('#cli pre').forEach((pre) => {
+  const lines = pre.innerHTML.split(String.fromCharCode(10));
+  pre.textContent = '';
+  lines.forEach((html) => {
+    const row = document.createElement('div'); row.className = 'ln';
+    const text = document.createElement('span'); text.innerHTML = html || ' ';
+    row.append(text);
+    const probe = text.cloneNode(true);
+    probe.querySelectorAll('.c').forEach((c) => c.remove());
+    const cmd = probe.textContent.trim();
+    if (cmd) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'copy'; b.dataset.copy = cmd; b.textContent = '복사';
+      b.setAttribute('aria-label', cmd + ' 복사');
+      row.append(b);
+    }
+    pre.append(row);
+  });
+});
 
 document.addEventListener('click', async (e) => {
   const b = e.target.closest('.copy'); if (!b) return;

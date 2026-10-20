@@ -4,7 +4,7 @@ import { spawn, spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync, mkdirSync, statSync, createReadStream, readdirSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { createInterface } from 'node:readline/promises';
-import { homedir, platform } from 'node:os';
+import { platform } from 'node:os';
 import { dirname, join, resolve, normalize, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -236,7 +236,7 @@ function cmdDoctor() {
 
 // ── 클론 ────────────────────────────────────────────────────────────
 function baseDir(opt) {
-  return resolve(opt.dir || process.env.REPOLAB_DIR || join(homedir(), 'repolab'));
+  return resolve(opt.dir || process.env.REPOLAB_DIR || join(ROOT, 'repos'));
 }
 function clonePath(r, opt) {
   return join(baseDir(opt), r.id.replace('/', '__'));
@@ -541,7 +541,7 @@ ${c.bold('찾아보기')}
 ${c.bold('가져와서 돌려 보기')}
   repolab doctor                   git/node/cargo/python 등 설치 여부 점검
   repolab check [이름...] [--all]  GitHub에 레포가 실제로 있는지 확인 (기본: 추천작)
-  repolab clone <이름...> [--full] [--update]   얕은 클론 (기본 위치 ~/repolab)
+  repolab clone <이름...> [--full] [--update]   얕은 클론 (기본 위치 프로젝트 폴더의 repos/)
   repolab run <이름> [--yes] [--dry-run]        클론 → 설치 → 실행 (추천작은 검증된 레시피)
   repolab serve <이름|폴더> [--port 8080] [--open]  내장 정적 서버
   repolab path <이름>              로컬 클론 경로 출력

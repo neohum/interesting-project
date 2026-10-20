@@ -22,7 +22,7 @@ repolab run anatomy            # 예제 갤러리를 내장 정적 서버로 띄
 repolab open                   # 소개 페이지 열기
 ```
 
-클론 위치는 기본 `~/repolab`이고 `--dir` 또는 `REPOLAB_DIR`로 바꾼다. Windows에서는 `py -3`, `.venv\Scripts`, `cmd /c start`를 자동으로 쓴다.
+클론 위치는 기본 프로젝트 폴더 안의 `repos/`이고 `--dir` 또는 `REPOLAB_DIR`로 바꾼다. Windows에서는 `py -3`, `.venv\Scripts`, `cmd /c start`를 자동으로 쓴다.
 
 ## 데이터에 대해
 

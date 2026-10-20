@@ -134,7 +134,7 @@ footer { padding: 48px 0 64px; color: var(--ink-3); font-size: 13px; }
 </head>
 <body>
 <nav class="toc" aria-label="목차"><div class="wrap">
-  <a href="#picks">추천 6선</a><a href="#mentions">더 볼 것</a><a href="#all">전체 목록</a><a href="#cli">CLI 사용법</a>
+  <a href="#cli">CLI 사용법</a><a href="#picks">추천 6선</a><a href="#mentions">더 볼 것</a><a href="#all">전체 목록</a>
   <button class="theme" type="button" id="theme">테마</button>
 </div></nav>
 
@@ -151,6 +151,46 @@ footer { padding: 48px 0 64px; color: var(--ink-3); font-size: 13px; }
 </div></header>
 
 <main>
+<section id="cli"><div class="wrap">
+  <h2>CLI로 검색하고 바로 돌리기</h2>
+  <p class="section-sub"><code>repolab</code>은 이 목록을 터미널에서 검색하고, 얕은 클론과 설치·실행까지 이어 주는 도구다. 의존성 없이 Node.js 18 이상과 git만 있으면 macOS·Windows·Linux에서 똑같이 돈다.</p>
+  <div class="cli-grid">
+    <div class="panel">
+      <h3>설치</h3>
+<pre><span class="c"># 1. 이 프로젝트 받기</span>
+git clone https://github.com/neohum/interesting-project.git
+cd interesting-project
+
+<span class="c"># 2. 이 폴더에서 바로</span>
+node bin/repolab.mjs help
+
+<span class="c"># 3. 어디서나 repolab 으로 쓰기</span>
+npm link
+repolab doctor   <span class="c"># git/node/cargo/python 점검</span></pre>
+    </div>
+    <div class="panel">
+      <h3>찾아보기</h3>
+<pre>repolab picks                     <span class="c"># 추천 6선</span>
+repolab search hwp markdown       <span class="c"># AND 검색</span>
+repolab list --local ready --lang Rust
+repolab show anatomy              <span class="c"># 일부 이름도 OK</span>
+repolab cats                      <span class="c"># 분류별 개수</span></pre>
+    </div>
+    <div class="panel">
+      <h3>클론하고 실행</h3>
+<pre>repolab clone anime               <span class="c"># ~/repolab 에 --depth 1</span>
+repolab run mesh2motion-app       <span class="c"># 클론→설치→실행 (확인 후)</span>
+repolab run artcraft --dry-run    <span class="c"># 계획만 보기</span>
+repolab serve anatomy --open
+repolab check --all               <span class="c"># 레포 존재 확인</span></pre>
+    </div>
+    <div class="panel">
+      <h3>로컬 실행 등급</h3>
+      <ul class="legend" id="legend"></ul>
+    </div>
+  </div>
+</div></section>
+
 <section id="picks"><div class="wrap">
   <h2>직접 해볼 만한 6선</h2>
   <p class="section-sub">모두 내 컴퓨터에 GPU가 없어도 된다. ArtCraft는 생성을 클라우드 모델에 맡기고, Anatomy와 huashu-art-motion은 코딩 에이전트에 설치해 쓰는 스킬이다. 카드의 그림은 각 프로젝트를 돌리면 얻는 결과물을 그린 예시이고, 맨 아래 명령 한 줄이면 클론부터 실행까지 이어진다.</p>
@@ -453,45 +493,6 @@ footer { padding: 48px 0 64px; color: var(--ink-3); font-size: 13px; }
   </table></div>
 </div></section>
 
-<section id="cli"><div class="wrap">
-  <h2>CLI로 검색하고 바로 돌리기</h2>
-  <p class="section-sub"><code>repolab</code>은 이 목록을 터미널에서 검색하고, 얕은 클론과 설치·실행까지 이어 주는 도구다. 의존성 없이 Node.js 18 이상과 git만 있으면 macOS·Windows·Linux에서 똑같이 돈다.</p>
-  <div class="cli-grid">
-    <div class="panel">
-      <h3>설치</h3>
-<pre><span class="c"># 1. 이 프로젝트 받기</span>
-git clone https://github.com/neohum/interesting-project.git
-cd interesting-project
-
-<span class="c"># 2. 이 폴더에서 바로</span>
-node bin/repolab.mjs help
-
-<span class="c"># 3. 어디서나 repolab 으로 쓰기</span>
-npm link
-repolab doctor   <span class="c"># git/node/cargo/python 점검</span></pre>
-    </div>
-    <div class="panel">
-      <h3>찾아보기</h3>
-<pre>repolab picks                     <span class="c"># 추천 6선</span>
-repolab search hwp markdown       <span class="c"># AND 검색</span>
-repolab list --local ready --lang Rust
-repolab show anatomy              <span class="c"># 일부 이름도 OK</span>
-repolab cats                      <span class="c"># 분류별 개수</span></pre>
-    </div>
-    <div class="panel">
-      <h3>클론하고 실행</h3>
-<pre>repolab clone anime               <span class="c"># ~/repolab 에 --depth 1</span>
-repolab run mesh2motion-app       <span class="c"># 클론→설치→실행 (확인 후)</span>
-repolab run artcraft --dry-run    <span class="c"># 계획만 보기</span>
-repolab serve anatomy --open
-repolab check --all               <span class="c"># 레포 존재 확인</span></pre>
-    </div>
-    <div class="panel">
-      <h3>로컬 실행 등급</h3>
-      <ul class="legend" id="legend"></ul>
-    </div>
-  </div>
-</div></section>
 </main>
 
 <footer><div class="wrap">

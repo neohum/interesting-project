@@ -12,9 +12,9 @@ const run = (...args) => spawnSync(process.execPath, [CLI, ...args], { encoding:
 const { repos } = JSON.parse(readFileSync(join(ROOT, 'data/repos.json'), 'utf8'));
 const { picks, mentions } = JSON.parse(readFileSync(join(ROOT, 'data/picks.json'), 'utf8'));
 
-test('데이터: 90개, id 중복 없음, 추천작은 모두 목록과 그림이 있다', () => {
-  assert.equal(repos.length, 90);
-  assert.equal(new Set(repos.map((r) => r.id)).size, 90);
+test('데이터: 91개, id 중복 없음, 추천작은 모두 목록과 그림이 있다', () => {
+  assert.equal(repos.length, 91);
+  assert.equal(new Set(repos.map((r) => r.id)).size, 91);
   const ids = new Set(repos.map((r) => r.id));
   for (const p of picks) {
     assert.ok(ids.has(p.id), p.id);

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "GitHub 트렌딩 레포 90선",
+    "title": "GitHub 트렌딩 레포 91선",
     "collected": "2026-10-20",
     "note": "별/포크/업데이트 수치는 사용자가 붙여 넣은 목록 기준 스냅샷이다. local 등급은 설명과 매니페스트를 근거로 한 판단이며, picks의 실행 레시피는 2026-10-20 기준 README·package.json에서 확인했다.",
     "levels": {
@@ -1009,6 +1009,18 @@
       "ko": "Claude Code 멀티 에이전트 오케스트레이션",
       "cat": "에이전트 스킬",
       "local": "skill"
+    },
+    {
+      "id": "lucasmarkes/hairline",
+      "lang": "TypeScript",
+      "stars": 2613,
+      "forks": 162,
+      "updated": "last week",
+      "desc": "Six isometric line figures that answer the pointer. For React and for anything with a DOM.",
+      "ko": "마우스에 반응하는 아이소메트릭 선 일러스트 모음. React와 순수 DOM 모두 지원",
+      "cat": "디자인·UI",
+      "local": "ready",
+      "pick": true
     }
   ]
 }

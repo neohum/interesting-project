@@ -200,6 +200,21 @@ function which(cmd) {
   whichCache.set(cmd, found);
   return found;
 }
+// Windows의 npm/pnpm 스크립트는 cmd.exe로 도는데, `rm -rf dist && ...` 같은 POSIX 스크립트는 거기서 깨진다.
+// git 설치에 딸려 오는 Git Bash를 스크립트 셸로 지정한다 (WSL의 bash.exe와 섞이지 않게 git 위치에서 찾는다).
+function gitBash() {
+  if (!IS_WIN) return null;
+  const r = spawnSync('where', ['git'], { encoding: 'utf8' });
+  for (const g of r.status === 0 ? r.stdout.split(/\r?\n/).filter(Boolean) : []) {
+    for (const root of [dirname(dirname(g)), dirname(dirname(dirname(g)))]) {
+      for (const rel of [['bin', 'bash.exe'], ['usr', 'bin', 'bash.exe']]) {
+        const b = join(root, ...rel);
+        if (existsSync(b)) return b;
+      }
+    }
+  }
+  return null;
+}
 function version(cmd, args = ['--version']) {
   const r = spawnSync(cmd, args, { encoding: 'utf8', shell: IS_WIN, timeout: 15000 });
   return r.status === 0 ? (r.stdout || r.stderr).trim().split(/\r?\n/)[0] : null;
@@ -414,9 +429,11 @@ async function cmdRun(pos, opt) {
     console.log(c.dim(process.stdin.isTTY ? '취소했습니다.' : '대화형 터미널이 아니라 확인을 받을 수 없습니다. --yes 를 붙이면 바로 실행합니다.'));
     return;
   }
+  const bash = process.env.npm_config_script_shell ? null : gitBash();
+  const stepEnv = bash ? { ...process.env, npm_config_script_shell: bash } : process.env;
   for (const step of resolved.steps) {
     console.log(c.dim(`\n$ ${step}`));
-    const res = spawnSync(step, { cwd: dir, stdio: 'inherit', shell: true });
+    const res = spawnSync(step, { cwd: dir, stdio: 'inherit', shell: true, env: stepEnv });
     // okCodes: 이슈를 찾으면 1로 끝나는 검사 도구(react-doctor)처럼 0이 아닌 정상 종료가 있다
     if (!(plan.okCodes || [0]).includes(res.status)) die(`"${step}" 가 종료 코드 ${res.status ?? res.signal}로 실패했습니다. 위 로그를 확인하세요.`, res.status || 1);
   }

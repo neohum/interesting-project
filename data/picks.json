@@ -106,43 +106,6 @@
       "art": "claude-animation.svg"
     },
     {
-      "id": "storytold/artcraft",
-      "title": "ArtCraft",
-      "tagline": "장면을 먼저 짜고 생성하는 AI 이미지·영상 IDE",
-      "why": "2D 레이어 합성, 3D 장면 배치, 캐릭터 포즈, 카메라 위치를 먼저 잡은 뒤 이미지·영상 모델로 생성하는 데스크톱 앱(Rust·Tauri)이다. 생성은 클라우드 모델이 하므로 내 컴퓨터에 GPU가 필요 없다. 대신 생성에는 계정이 필요하고, 소스 빌드는 무겁다. 빌드 없이 쓰려면 공식 사이트의 Windows·macOS 설치본을 받는다.",
-      "outputs": [
-        "직접 빌드한 ArtCraft 데스크톱 앱 (개발 모드)",
-        "3D 장면·포즈·카메라를 고정해 뽑은 일관된 컷",
-        "이미지 → 영상, 이미지 → 3D 메시 결과물"
-      ],
-      "minis": [
-        {
-          "name": "4컷 스토리보드",
-          "desc": "같은 방(Image to Location)에 인물을 세우고 카메라만 옮겨 4컷을 뽑아, 짧은 영상 콘티로 쓴다."
-        },
-        {
-          "name": "상품 소품 컷",
-          "desc": "상품 사진의 배경을 지우고 3D 장면에 올려 각도·조명이 다른 홍보 이미지를 여러 장 만든다."
-        }
-      ],
-      "requires": [
-        "git",
-        "node 20+",
-        "cargo (Rust)",
-        "tauri-cli 2"
-      ],
-      "size": "대 (Rust 빌드 수 GB, 첫 빌드 수십 분)",
-      "recipe": {
-        "steps": [
-          "cargo install tauri-cli --version ^2 --locked",
-          "./script/artcraft/unix_dev.sh"
-        ],
-        "win": [],
-        "note": "Vite 개발 서버와 Tauri 앱을 한 터미널에서 함께 띄운다(Ctrl+C로 둘 다 종료). Windows는 터미널 두 개에서 script\\artcraft\\windows_frontend_dev.ps1, windows_rust_dev.ps1을 각각 실행한다. 이미지·영상 생성은 로그인한 계정의 클라우드 모델로 돈다."
-      },
-      "art": "artcraft.svg"
-    },
-    {
       "id": "wheresryan22/anatomy",
       "title": "Anatomy",
       "tagline": "개념을 움직이는 아이소메트릭 기계 그림으로 설명한다",

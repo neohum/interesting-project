@@ -5,6 +5,7 @@ GitHub 트렌딩 레포 90개를 실행 조건별로 정리하고, 그중 애니
 - 🌐 **소개 페이지: https://neohum.github.io/interesting-project/** (설치 없이 바로 열기)
 - `site/index.html` — 소개 페이지 (추천 6선 일러스트, 전체 목록 검색·필터, CLI 사용법)
 - `bin/repolab.mjs` — 목록 검색 · 클론 · 실행 CLI (의존성 없음, Node 18+ · git)
+- `sample-models/` — Mesh2Motion에 올려 볼 수 있는 무료(CC0) 3D 모델 GLB 9개
 - `data/repos.json`, `data/picks.json` — 원본 데이터. 고친 뒤 `repolab html`로 페이지를 다시 만든다.
 
 ## 빠른 시작

@@ -211,6 +211,41 @@
         "note": "stills/ 폴더에 고흐 장면 한 프레임, finance-chart.mp4에 해설 영상이 나온다. 에이전트 스킬로 쓰려면 npx skills add alchaincyf/huashu-art-motion"
       },
       "art": "huashu.svg"
+    },
+    {
+      "id": "lucasmarkes/hairline",
+      "title": "Hairline",
+      "tagline": "마우스를 따라 움직이는 아이소메트릭 선 일러스트",
+      "why": "카드 트레이, 기둥 지형, 터미널, 금고 같은 도형 33종이 마우스 위치에 반응해 일어서고 열리고 돌아간다. 의존성 없는 순수 JS 라이브러리라 React 컴포넌트로도, 일반 DOM 요소에도 바로 붙는다. 클론해서 데모 사이트를 띄우면 intensity 슬라이더로 반응 세기를 바꿔 볼 수 있고, 코딩 에이전트용 hairline-create 스킬로 내 도형도 그릴 수 있다.",
+      "outputs": [
+        "localhost:3000 — 33개 도형을 마우스로 만져 보는 데모 사이트",
+        "내 웹페이지 히어로에 넣은 인터랙티브 도형 한 컴포넌트",
+        "/hairline-create 스킬로 만든 나만의 도형 HTML 한 파일"
+      ],
+      "minis": [
+        {
+          "name": "포트폴리오 히어로",
+          "desc": "Terrain이나 Riffle 한 개를 Vite·Next 페이지 맨 위에 넣고, 테마 변수 6개로 사이트 색에 맞춘다."
+        },
+        {
+          "name": "커밋 그래프 README 헤더",
+          "desc": "Branches 도형을 화면 녹화해 GIF로 만들어 레포 README 맨 위에 붙인다."
+        }
+      ],
+      "requires": [
+        "git",
+        "node 22+",
+        "pnpm"
+      ],
+      "size": "소 (pnpm install 약 20초)",
+      "recipe": {
+        "steps": [
+          "{pnpm} install",
+          "{pnpm} dev"
+        ],
+        "note": "turbo가 라이브러리를 먼저 빌드한 뒤 Next.js 데모 사이트를 http://localhost:3000 에 띄운다. Node 22 이상이 필요하다. 내 프로젝트에 쓰려면 npm i @lucasmarkes/hairline."
+      },
+      "art": "hairline.svg"
     }
   ],
   "mentions": [
